@@ -25,6 +25,7 @@ jobs:
       BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
       - name: Checkout
@@ -46,11 +47,11 @@ jobs:
         run: npm run build
 
       - name: Install Vercel CLI
-        if: ${{ secrets.DATABASE_URL != '' }}
+        if: env.DATABASE_URL != ''
         run: npm install -g vercel@48
 
       - name: Link Vercel project (for API routes in E2E)
-        if: ${{ secrets.VERCEL_TOKEN != '' && secrets.DATABASE_URL != '' }}
+        if: env.DATABASE_URL != '' && env.VERCEL_TOKEN != ''
         run: npx vercel pull --yes --environment=development --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Install Playwright browsers
@@ -58,8 +59,6 @@ jobs:
 
       - name: E2E tests
         run: npm run test:e2e
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Upload Playwright report
         if: failure()
