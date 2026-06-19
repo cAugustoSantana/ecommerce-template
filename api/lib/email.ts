@@ -1,7 +1,7 @@
 import { Resend } from "resend";
-import type { Locale } from "../../shared/types";
-import { storeConfig } from "./config";
-import type { OrderItemRow, OrderRow } from "../../shared/db.types";
+import type { Locale } from "../../shared/types.js";
+import { storeConfig } from "./config.js";
+import type { OrderItemRow, OrderRow } from "../../shared/db.types.js";
 
 function getResend() {
   const key = process.env.RESEND_API_KEY;

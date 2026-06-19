@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from "vitest";
-import { rateLimit, rateLimitKey } from "./rateLimit";
+import { rateLimit, rateLimitKey } from "./rateLimit.js";
 
 describe("rateLimit memory store", () => {
   it("blocks after limit exceeded", async () => {

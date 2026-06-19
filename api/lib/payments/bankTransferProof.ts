@@ -1,6 +1,6 @@
-import type { Locale } from "../../../shared/types";
-import { storeConfig } from "../config";
-import { getBankTransferDetails } from "../email";
+import type { Locale } from "../../../shared/types.js";
+import { storeConfig } from "../config.js";
+import { getBankTransferDetails } from "../email.js";
 
 export type PaymentInstructions = {
   provider: typeof storeConfig.payment.provider;

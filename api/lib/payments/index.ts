@@ -1,7 +1,7 @@
-import type { Locale } from "../../../shared/types";
-import { getPaymentInstructions } from "./bankTransferProof";
+import type { Locale } from "../../../shared/types.js";
+import { getPaymentInstructions } from "./bankTransferProof.js";
 
-export { getPaymentInstructions, assertPaymentProviderConfigured } from "./bankTransferProof";
+export { getPaymentInstructions, assertPaymentProviderConfigured } from "./bankTransferProof.js";
 
 export function getPaymentProvider() {
   return {

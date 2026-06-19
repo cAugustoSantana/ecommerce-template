@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db";
-import { getOrderByDisplayId, updateProofMethod } from "../../lib/orders";
-import { json, methodNotAllowed, readJsonBody } from "../../lib/http";
+import { hasDatabase } from "../../lib/db.js";
+import { getOrderByDisplayId, updateProofMethod } from "../../lib/orders.js";
+import { json, methodNotAllowed, readJsonBody } from "../../lib/http.js";
 
 type ProofMethodBody = { method: "whatsapp" };
 

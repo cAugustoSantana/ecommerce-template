@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db";
-import { getOrderByDisplayId } from "../../lib/orders";
-import { getPaymentInstructions } from "../../lib/payments";
-import { json, methodNotAllowed } from "../../lib/http";
-import type { Locale } from "../../../shared/types";
+import { hasDatabase } from "../../lib/db.js";
+import { getOrderByDisplayId } from "../../lib/orders.js";
+import { getPaymentInstructions } from "../../lib/payments/index.js";
+import { json, methodNotAllowed } from "../../lib/http.js";
+import type { Locale } from "../../../shared/types.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

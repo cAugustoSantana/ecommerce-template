@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
-import { storeConfig } from "./config";
-import { getSql } from "./db";
-import type { OrderItemRow, OrderRow, OrderWithItems } from "../../shared/db.types";
+import { storeConfig } from "./config.js";
+import { getSql } from "./db.js";
+import type { OrderItemRow, OrderRow, OrderWithItems } from "../../shared/db.types.js";
 
 export function buildDisplayId(uuid: string): string {
   const hex = uuid.replace(/-/g, "");

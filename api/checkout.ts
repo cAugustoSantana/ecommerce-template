@@ -1,16 +1,16 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "./lib/db";
+import { hasDatabase } from "./lib/db.js";
 import {
   getClientIp,
   getSiteOrigin,
   json,
   methodNotAllowed,
   readJsonBody,
-} from "./lib/http";
-import { rateLimit, rateLimitKey } from "./lib/rateLimit";
-import { validateCheckout, type CheckoutInput } from "./lib/validate";
-import { createOrder } from "./lib/orders";
-import { sendCheckoutEmails } from "./lib/email";
+} from "./lib/http.js";
+import { rateLimit, rateLimitKey } from "./lib/rateLimit.js";
+import { validateCheckout, type CheckoutInput } from "./lib/validate.js";
+import { createOrder } from "./lib/orders.js";
+import { sendCheckoutEmails } from "./lib/email.js";
 
 function mapValidationError(err: unknown): { status: number; error: string } {
   const message = err instanceof Error ? err.message : "invalid_request";

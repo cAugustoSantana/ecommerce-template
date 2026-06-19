@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from "vitest";
-import { createStripeProvider } from "./stripe";
+import { createStripeProvider } from "./stripe.js";
 
 describe("stripe provider stub", () => {
   it("throws not configured", () => {

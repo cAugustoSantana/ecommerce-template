@@ -9,7 +9,7 @@ import {
   validateProofImage,
   validateCheckout,
   PROOF_MAX_BYTES,
-} from "./validate";
+} from "./validate.js";
 
 const validItem = {
   productId: "prod-1",

@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../lib/db";
-import { requireAdmin } from "../lib/auth";
-import { updateOrderStatus } from "../lib/orders";
-import { isValidOrderStatus } from "../lib/validate";
-import { json, methodNotAllowed, readJsonBody } from "../lib/http";
+import { hasDatabase } from "../lib/db.js";
+import { requireAdmin } from "../lib/auth.js";
+import { updateOrderStatus } from "../lib/orders.js";
+import { isValidOrderStatus } from "../lib/validate.js";
+import { json, methodNotAllowed, readJsonBody } from "../lib/http.js";
 
 type StatusBody = { orderId: string; estado: string };
 

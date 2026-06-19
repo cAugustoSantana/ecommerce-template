@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db";
-import { getClientIp, json, methodNotAllowed, readJsonBody } from "../../lib/http";
-import { rateLimit, rateLimitKey } from "../../lib/rateLimit";
-import { validateProofImage } from "../../lib/validate";
-import { getOrderByDisplayId, updateProofMethod } from "../../lib/orders";
-import { uploadProofImage } from "../../lib/blob";
-import { sendProofUploadedEmail } from "../../lib/email";
+import { hasDatabase } from "../../lib/db.js";
+import { getClientIp, json, methodNotAllowed, readJsonBody } from "../../lib/http.js";
+import { rateLimit, rateLimitKey } from "../../lib/rateLimit.js";
+import { validateProofImage } from "../../lib/validate.js";
+import { getOrderByDisplayId, updateProofMethod } from "../../lib/orders.js";
+import { uploadProofImage } from "../../lib/blob.js";
+import { sendProofUploadedEmail } from "../../lib/email.js";
 
 type ProofUploadBody = {
   imageBase64: string;

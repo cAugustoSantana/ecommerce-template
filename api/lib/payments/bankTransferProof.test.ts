@@ -5,8 +5,8 @@ import { describe, it, expect } from "vitest";
 import {
   getPaymentInstructions,
   assertPaymentProviderConfigured,
-} from "./bankTransferProof";
-import { getPaymentProvider } from "./index";
+} from "./bankTransferProof.js";
+import { getPaymentProvider } from "./index.js";
 
 describe("bankTransferProof", () => {
   it("returns bank transfer instructions for locale", () => {

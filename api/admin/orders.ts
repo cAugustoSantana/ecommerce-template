@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../lib/db";
-import { requireAdmin } from "../lib/auth";
-import { listOrdersWithItems } from "../lib/orders";
-import { json, methodNotAllowed } from "../lib/http";
+import { hasDatabase } from "../lib/db.js";
+import { requireAdmin } from "../lib/auth.js";
+import { listOrdersWithItems } from "../lib/orders.js";
+import { json, methodNotAllowed } from "../lib/http.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

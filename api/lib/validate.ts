@@ -1,5 +1,5 @@
-import type { Locale } from "../../shared/types";
-import { storeConfig } from "./config";
+import type { Locale } from "../../shared/types.js";
+import { storeConfig } from "./config.js";
 
 export type CartLineInput = {
   productId: string;

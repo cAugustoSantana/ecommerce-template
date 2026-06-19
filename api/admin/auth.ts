@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getClientIp, json, methodNotAllowed, readJsonBody } from "../lib/http";
-import { rateLimit, rateLimitKey } from "../lib/rateLimit";
-import { signAdminToken, verifyAdminPassword } from "../lib/auth";
+import { getClientIp, json, methodNotAllowed, readJsonBody } from "../lib/http.js";
+import { rateLimit, rateLimitKey } from "../lib/rateLimit.js";
+import { signAdminToken, verifyAdminPassword } from "../lib/auth.js";
 
 type AuthBody = { password: string };
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildDisplayId } from "./orders";
+import { buildDisplayId } from "./orders.js";
 
 describe("buildDisplayId", () => {
   it("formats storeSlug-last5", () => {
