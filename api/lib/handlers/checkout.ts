@@ -1,17 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "./lib/db.js";
+import { hasDatabase } from "../db.js";
 import {
   getClientIp,
   getSiteOrigin,
   json,
   methodNotAllowed,
   readJsonBody,
-} from "./lib/http.js";
-import { rateLimit, rateLimitKey } from "./lib/rateLimit.js";
-import { validateCheckout, type CheckoutInput } from "./lib/validate.js";
-import { createOrder } from "./lib/orders.js";
-import { sendCheckoutEmails } from "./lib/email.js";
-import { routes } from "../shared/routes.js";
+} from "../http.js";
+import { rateLimit, rateLimitKey } from "../rateLimit.js";
+import { validateCheckout, type CheckoutInput } from "../validate.js";
+import { createOrder } from "../orders.js";
+import { sendCheckoutEmails } from "../email.js";
+import { routes } from "../../../shared/routes.js";
 
 function mapValidationError(err: unknown): { status: number; error: string } {
   const message = err instanceof Error ? err.message : "invalid_request";
@@ -38,7 +38,7 @@ function mapValidationError(err: unknown): { status: number; error: string } {
   return { status: 400, error: "invalid_request" };
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleCheckout(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return methodNotAllowed(res);
   }

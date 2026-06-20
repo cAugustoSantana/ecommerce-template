@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getClientIp, json, methodNotAllowed, readJsonBody } from "../lib/http.js";
-import { rateLimit, rateLimitKey } from "../lib/rateLimit.js";
-import { signAdminToken, verifyAdminPassword } from "../lib/auth.js";
+import { getClientIp, json, methodNotAllowed, readJsonBody } from "../http.js";
+import { rateLimit, rateLimitKey } from "../rateLimit.js";
+import { signAdminToken, verifyAdminPassword } from "../auth.js";
 
 type AuthBody = { password: string };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminAuth(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return methodNotAllowed(res);
   }

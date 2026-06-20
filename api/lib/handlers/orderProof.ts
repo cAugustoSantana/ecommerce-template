@@ -1,18 +1,18 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db.js";
-import { getClientIp, json, methodNotAllowed, readJsonBody } from "../../lib/http.js";
-import { rateLimit, rateLimitKey } from "../../lib/rateLimit.js";
-import { validateProofImage } from "../../lib/validate.js";
-import { getOrderByDisplayId, updateProofMethod } from "../../lib/orders.js";
-import { uploadProofImage } from "../../lib/blob.js";
-import { sendProofUploadedEmail } from "../../lib/email.js";
+import { hasDatabase } from "../db.js";
+import { getClientIp, json, methodNotAllowed, readJsonBody } from "../http.js";
+import { rateLimit, rateLimitKey } from "../rateLimit.js";
+import { validateProofImage } from "../validate.js";
+import { getOrderByDisplayId, updateProofMethod } from "../orders.js";
+import { uploadProofImage } from "../blob.js";
+import { sendProofUploadedEmail } from "../email.js";
 
 type ProofUploadBody = {
   imageBase64: string;
   mimeType?: string;
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleOrderProof(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return methodNotAllowed(res);
   }

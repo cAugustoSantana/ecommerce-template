@@ -1,17 +1,21 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../../lib/db.js";
-import { requireAdmin } from "../../../lib/auth.js";
-import { getProductById, updateProductImageUrl } from "../../../lib/products.js";
-import { uploadProductImage } from "../../../lib/blob.js";
-import { validateProofImage } from "../../../lib/validate.js";
-import { json, methodNotAllowed, readJsonBody } from "../../../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
+import { uploadStoreLogo } from "../blob.js";
+import {
+  getStoreConfig,
+  getStoreSettingsUpdatedAt,
+  saveStoreSettings,
+} from "../storeSettings.js";
+import { validateProofImage } from "../validate.js";
+import { json, methodNotAllowed, readJsonBody } from "../http.js";
 
-type ImageBody = {
+type LogoBody = {
   imageBase64: string;
   mimeType?: string;
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminSettingsLogo(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return methodNotAllowed(res);
   }
@@ -20,20 +24,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return json(res, 503, { error: "database_not_configured" });
   }
 
-  const id = req.query.id;
-  if (typeof id !== "string" || !id.trim()) {
-    return json(res, 400, { error: "missing_product_id" });
-  }
-
   try {
     await requireAdmin(req);
 
-    const existing = await getProductById(id);
-    if (!existing) {
-      return json(res, 404, { error: "product_not_found" });
-    }
-
-    const body = readJsonBody<ImageBody>(req);
+    const body = readJsonBody<LogoBody>(req);
     if (!body.imageBase64) {
       return json(res, 400, { error: "missing_image" });
     }
@@ -41,10 +35,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const raw = body.imageBase64.replace(/^data:[^;]+;base64,/, "");
     const buffer = Buffer.from(raw, "base64");
     const contentType = validateProofImage(buffer, body.mimeType);
-    const imageUrl = await uploadProductImage({ productId: id, buffer, contentType });
-    const product = await updateProductImageUrl(id, imageUrl);
+    const logoUrl = await uploadStoreLogo({ buffer, contentType });
 
-    return json(res, 200, { product, imageUrl });
+    const current = await getStoreConfig();
+    const settings = await saveStoreSettings({ ...current, logoUrl });
+    const updatedAt = await getStoreSettingsUpdatedAt();
+
+    return json(res, 200, { settings, logoUrl, updatedAt });
   } catch (err) {
     if (err instanceof Error && err.message === "unauthorized") {
       return json(res, 401, { error: "unauthorized" });
@@ -54,12 +51,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         "file_too_large",
         "invalid_image_type",
         "invalid_image_magic",
+        "invalid_logo_url",
       ]);
       if (clientErrors.has(err.message)) {
         return json(res, 400, { error: err.message });
       }
+      if (err.message === "BLOB_READ_WRITE_TOKEN is not configured") {
+        return json(res, 503, { error: "blob_not_configured" });
+      }
     }
-    console.error("admin_product_image_error", err);
+    console.error("admin_settings_logo_error", err);
     return json(res, 500, { error: "server_error" });
   }
 }

@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db.js";
-import { requireAdmin } from "../../lib/auth.js";
-import { getOrderByDisplayId } from "../../lib/orders.js";
-import { serializeAdminOrderDetail } from "../../lib/adminOrders.js";
-import { json, methodNotAllowed } from "../../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
+import { getOrderByDisplayId } from "../orders.js";
+import { serializeAdminOrderDetail } from "../adminOrders.js";
+import { json, methodNotAllowed } from "../http.js";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminOrderDetail(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return methodNotAllowed(res);
   }
@@ -26,7 +26,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return json(res, 404, { error: "order_not_found" });
     }
 
-    return json(res, 200, { order: await serializeAdminOrderDetail(order) });  } catch (err) {
+    return json(res, 200, { order: await serializeAdminOrderDetail(order) });
+  } catch (err) {
     if (err instanceof Error && err.message === "unauthorized") {
       return json(res, 401, { error: "unauthorized" });
     }

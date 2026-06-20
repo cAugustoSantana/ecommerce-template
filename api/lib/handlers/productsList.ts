@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../lib/db.js";
-import { listActiveProducts } from "../lib/products.js";
-import { json, methodNotAllowed } from "../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { listActiveProducts } from "../products.js";
+import { json, methodNotAllowed } from "../http.js";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleProductsList(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return methodNotAllowed(res);
   }

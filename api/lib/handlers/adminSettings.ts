@@ -1,14 +1,14 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../lib/db.js";
-import { requireAdmin } from "../lib/auth.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
 import {
   getStoreConfig,
   getStoreSettingsUpdatedAt,
   saveStoreSettings,
-} from "../lib/storeSettings.js";
-import { json, methodNotAllowed, readJsonBody } from "../lib/http.js";
+} from "../storeSettings.js";
+import { json, methodNotAllowed, readJsonBody } from "../http.js";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminSettings(req: VercelRequest, res: VercelResponse) {
   if (!hasDatabase()) {
     return json(res, 503, { error: "database_not_configured" });
   }

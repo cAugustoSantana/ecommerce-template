@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db.js";
-import { requireAdmin } from "../../lib/auth.js";
-import { createProduct, listAllProducts } from "../../lib/products.js";
-import { json, methodNotAllowed, readJsonBody } from "../../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
+import { createProduct, listAllProducts } from "../products.js";
+import { json, methodNotAllowed, readJsonBody } from "../http.js";
 
 type CreateProductBody = {
   id: string;
@@ -15,7 +15,7 @@ type CreateProductBody = {
   sortOrder?: number;
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminProductsList(req: VercelRequest, res: VercelResponse) {
   if (!hasDatabase()) {
     return json(res, 503, { error: "database_not_configured" });
   }

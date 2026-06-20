@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db.js";
-import { requireAdmin } from "../../lib/auth.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
 import {
   deactivateProduct,
   getProductById,
   updateProduct,
-} from "../../lib/products.js";
-import { json, methodNotAllowed, readJsonBody } from "../../lib/http.js";
+} from "../products.js";
+import { json, methodNotAllowed, readJsonBody } from "../http.js";
 
 type UpdateProductBody = {
   name?: Record<string, string>;
@@ -18,7 +18,7 @@ type UpdateProductBody = {
   sortOrder?: number;
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminProductDetail(req: VercelRequest, res: VercelResponse) {
   if (!hasDatabase()) {
     return json(res, 503, { error: "database_not_configured" });
   }

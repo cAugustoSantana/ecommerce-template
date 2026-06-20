@@ -1,11 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../../lib/db.js";
-import { requireAdmin } from "../../lib/auth.js";
-import { getOrderById } from "../../lib/orders.js";
-import { fetchProofImage } from "../../lib/blob.js";
-import { json, methodNotAllowed } from "../../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
+import { getOrderById } from "../orders.js";
+import { fetchProofImage } from "../blob.js";
+import { json, methodNotAllowed } from "../http.js";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminProof(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
     return methodNotAllowed(res);
   }

@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { hasDatabase } from "../lib/db.js";
-import { requireAdmin } from "../lib/auth.js";
-import { updateOrderStatus } from "../lib/orders.js";
-import { isValidOrderStatus } from "../lib/validate.js";
-import { json, methodNotAllowed, readJsonBody } from "../lib/http.js";
+import { hasDatabase } from "../db.js";
+import { requireAdmin } from "../auth.js";
+import { updateOrderStatus } from "../orders.js";
+import { isValidOrderStatus } from "../validate.js";
+import { json, methodNotAllowed, readJsonBody } from "../http.js";
 
 type StatusBody = { orderId: string; estado: string };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export async function handleAdminStatus(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return methodNotAllowed(res);
   }
