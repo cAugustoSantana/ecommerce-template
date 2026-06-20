@@ -4,6 +4,7 @@ import { useCart } from "@/context/CartContext";
 import type { Locale } from "@shared/types";
 import { ProductCard } from "@/components/ProductCard";
 import { StorefrontHeader } from "@/components/StorefrontHeader";
+import { StorefrontFooter } from "@/components/StorefrontFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 import { PendingOrderBanner } from "@/components/PendingOrderBanner";
 
@@ -15,7 +16,7 @@ export function StorefrontPage() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-      <StorefrontHeader showAdminNav />
+      <StorefrontHeader />
       <PendingOrderBanner />
 
       <main
@@ -40,6 +41,7 @@ export function StorefrontPage() {
         </div>
       </main>
 
+      <StorefrontFooter />
       <CartDrawer />
     </div>
   );

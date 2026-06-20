@@ -9,6 +9,7 @@ import { postCheckout } from "@/lib/api";
 import { getLocalized } from "@/lib/localized";
 import { formatMoney } from "@/lib/format";
 import { StorefrontHeader } from "@/components/StorefrontHeader";
+import { StorefrontFooter } from "@/components/StorefrontFooter";
 import type { CheckoutResponse } from "@/types/commerce";
 
 type FormValues = {
@@ -113,7 +114,7 @@ export function CheckoutPage() {
   if (lines.length === 0) {
     return (
       <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-        <StorefrontHeader showCatalogNav />
+        <StorefrontHeader />
 
         <main className="mx-auto flex flex-1 flex-col justify-center px-4 py-6 lg:px-8">
           <h2 className="text-2xl font-extrabold tracking-tight lg:text-3xl">
@@ -131,13 +132,14 @@ export function CheckoutPage() {
             </Link>
           </div>
         </main>
+        <StorefrontFooter />
       </div>
     );
   }
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-      <StorefrontHeader showCatalogNav />
+      <StorefrontHeader />
 
       <main className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col overflow-y-auto px-4 py-3 lg:overflow-hidden lg:px-8 lg:py-3">
         <div className="mb-3 shrink-0 lg:mb-2">
@@ -348,6 +350,8 @@ export function CheckoutPage() {
           </div>
         </div>
       </main>
+
+      <StorefrontFooter />
     </div>
   );
 }

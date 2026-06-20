@@ -59,12 +59,16 @@ const validCheckout = {
 describe("normalizePhone", () => {
   it("normalizes formatted NANP input", async () => {
     const { normalizePhone } = await import("./validate.js");
-    expect(normalizePhone("+1 849 620 2020")).toBe("18496202020");
+    const { defaultStoreSettings } = await import("./storeSettings.js");
+    const config = defaultStoreSettings();
+    expect(normalizePhone("+1 849 620 2020", config)).toBe("18496202020");
   });
 
   it("prepends country code for local 10-digit", async () => {
     const { normalizePhone } = await import("./validate.js");
-    expect(normalizePhone("8095551234")).toBe("18095551234");
+    const { defaultStoreSettings } = await import("./storeSettings.js");
+    const config = defaultStoreSettings();
+    expect(normalizePhone("8095551234", config)).toBe("18095551234");
   });
 });
 

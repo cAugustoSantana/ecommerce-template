@@ -152,3 +152,33 @@ export async function updateOrderStatus(token: string, orderId: string, estado: 
   });
   return parseJson(res);
 }
+
+export async function fetchStoreSettings() {
+  const res = await fetch(`${API_BASE}/settings`);
+  return parseJson<{ settings: import("@shared/storeSettings.types").PublicStoreSettings }>(res);
+}
+
+export async function fetchAdminSettings(token: string) {
+  const res = await fetch(`${API_BASE}/admin/settings`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return parseJson<{
+    settings: import("@shared/storeSettings.types").StoreSettingsData;
+    updatedAt: string | null;
+  }>(res);
+}
+
+export async function updateAdminSettings(token: string, settings: unknown) {
+  const res = await fetch(`${API_BASE}/admin/settings`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ settings }),
+  });
+  return parseJson<{
+    settings: import("@shared/storeSettings.types").StoreSettingsData;
+    updatedAt: string | null;
+  }>(res);
+}

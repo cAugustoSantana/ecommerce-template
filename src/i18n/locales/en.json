@@ -15,6 +15,13 @@
     "addToOrder": "Add to order",
     "quantity": "Quantity"
   },
+  "footer": {
+    "template": {
+      "title": "Want to sell online like this store?",
+      "subtitle": "Use this template to launch your catalog, take orders, and start selling in minutes.",
+      "cta": "Start selling"
+    }
+  },
   "productDetail": {
     "backToCatalog": "Back to catalog",
     "viewProduct": "View product",
@@ -147,7 +154,38 @@
     "payment": "Payment",
     "nav": {
       "orders": "Orders",
-      "products": "Products"
+      "products": "Products",
+      "settings": "Settings"
+    },
+    "settings": {
+      "title": "Store settings",
+      "subtitle": "Configure store metadata, contact, and bank transfer details.",
+      "save": "Save settings",
+      "lastSaved": "Last saved: {{date}}",
+      "storeSection": "Store identity",
+      "contactSection": "Contact & notifications",
+      "bankSection": "Bank transfer",
+      "storeSlug": "Order ID prefix (store slug)",
+      "defaultLocale": "Default locale",
+      "currency": "Currency code",
+      "taxRate": "Tax rate (%)",
+      "primaryColor": "Primary color (hex)",
+      "logoUrl": "Logo URL",
+      "phoneCountryCode": "Phone country code",
+      "phoneLocalDigits": "Local phone digits",
+      "emailFrom": "Email sender (from)",
+      "ownerEmail": "Owner notification email",
+      "whatsappCountryCode": "WhatsApp country code",
+      "whatsappNumber": "WhatsApp number",
+      "instagramUrl": "Instagram URL",
+      "bankNameEs": "Bank name (ES)",
+      "bankNameEn": "Bank name (EN)",
+      "accountName": "Account holder",
+      "accountNumber": "Account number",
+      "accountTypeEs": "Account type (ES)",
+      "accountTypeEn": "Account type (EN)",
+      "referenceHintEs": "Transfer reference hint (ES)",
+      "referenceHintEn": "Transfer reference hint (EN)"
     },
     "products": {
       "title": "Products",

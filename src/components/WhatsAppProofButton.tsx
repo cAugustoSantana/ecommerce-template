@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useStoreConfig } from "@/context/StoreSettingsContext";
 import { recordProofMethod } from "@/lib/api";
 import {
   buildPaymentProofWhatsAppMessage,
@@ -27,7 +28,13 @@ export function WhatsAppProofButton({
   buttonClassName,
 }: Props) {
   const { t } = useTranslation();
+  const settings = useStoreConfig();
   const [loading, setLoading] = useState(false);
+
+  const whatsappDigits = `${settings.contact.whatsappCountryCode}${settings.contact.whatsappNumber}`.replace(
+    /\D/g,
+    "",
+  );
 
   const handleClick = async () => {
     if (disabled || loading) return;
@@ -40,7 +47,7 @@ export function WhatsAppProofButton({
         totalFormatted,
         locale,
       });
-      window.open(buildStoreWhatsAppUrl(text), "_blank", "noopener,noreferrer");
+      window.open(buildStoreWhatsAppUrl(text, whatsappDigits), "_blank", "noopener,noreferrer");
       onSent?.();
     } catch {
       // still open WhatsApp even if API fails
@@ -50,7 +57,7 @@ export function WhatsAppProofButton({
         totalFormatted,
         locale,
       });
-      window.open(buildStoreWhatsAppUrl(text), "_blank", "noopener,noreferrer");
+      window.open(buildStoreWhatsAppUrl(text, whatsappDigits), "_blank", "noopener,noreferrer");
     } finally {
       setLoading(false);
     }

@@ -1,16 +1,17 @@
 import type { Locale } from "../../../shared/types.js";
-import { storeConfig } from "../config.js";
+import { getStoreConfig } from "../storeSettings.js";
 import { getBankTransferDetails } from "../email.js";
 
 export type PaymentInstructions = {
-  provider: typeof storeConfig.payment.provider;
+  provider: "bank_transfer_proof" | "stripe" | "azul";
   bankTransfer: ReturnType<typeof getBankTransferDetails>;
 };
 
-export function getPaymentInstructions(locale: Locale): PaymentInstructions {
+export async function getPaymentInstructions(locale: Locale): Promise<PaymentInstructions> {
+  const config = await getStoreConfig();
   return {
-    provider: storeConfig.payment.provider,
-    bankTransfer: getBankTransferDetails(locale),
+    provider: config.payment.provider,
+    bankTransfer: getBankTransferDetails(locale, config),
   };
 }
 

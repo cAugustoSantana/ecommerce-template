@@ -18,6 +18,7 @@ import {
 import { useProducts } from "@/context/ProductsContext";
 import { useCart } from "@/context/CartContext";
 import { StorefrontHeader } from "@/components/StorefrontHeader";
+import { StorefrontFooter } from "@/components/StorefrontFooter";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SizeGuideDialog } from "@/components/SizeGuideDialog";
 import { getLocalized } from "@/lib/localized";
@@ -95,7 +96,7 @@ export function ProductDetailPage() {
   if (!product) {
     return (
       <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900">
-        <StorefrontHeader showAdminNav />
+        <StorefrontHeader />
         <main className="mx-auto flex flex-1 flex-col items-center justify-center px-4 py-8 text-center lg:px-8">
           <p className="text-gray-500">{t("productDetail.notFound")}</p>
           <Link
@@ -128,7 +129,7 @@ export function ProductDetailPage() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-      <StorefrontHeader showAdminNav />
+      <StorefrontHeader />
 
       <main
         className={`mx-auto flex w-full max-w-[1440px] flex-1 flex-col overflow-y-auto px-4 py-3 lg:overflow-hidden lg:px-8 lg:py-3 ${
@@ -438,6 +439,7 @@ export function ProductDetailPage() {
         onClose={() => setSizeGuideOpen(false)}
         selectedSizeKey={selectedSizeKey}
       />
+      <StorefrontFooter />
       <CartDrawer />
     </div>
   );

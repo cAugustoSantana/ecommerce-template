@@ -1,5 +1,5 @@
 import type { Locale } from "@shared/types";
-import { storeConfig } from "@shared/store.config";
+import { getStoreCurrency } from "@/lib/storeRuntime";
 
 const localeMap: Record<Locale, string> = {
   es: "es-DO",
@@ -9,7 +9,7 @@ const localeMap: Record<Locale, string> = {
 export function formatMoney(amount: number, locale: Locale): string {
   return new Intl.NumberFormat(localeMap[locale], {
     style: "currency",
-    currency: storeConfig.currency,
+    currency: getStoreCurrency(),
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
   }).format(amount);

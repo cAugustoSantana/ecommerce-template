@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const locale = order.locale as Locale;
-  const payment = getPaymentInstructions(locale);
+  const payment = await getPaymentInstructions(locale);
 
   return json(res, 200, {
     displayId: order.display_id,

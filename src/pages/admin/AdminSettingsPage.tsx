@@ -1,0 +1,415 @@
+import { Link, useOutletContext } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState, type FormEvent } from "react";
+import { fetchAdminSettings, updateAdminSettings } from "@/lib/api";
+import type { StoreSettingsData } from "@shared/storeSettings.types";
+import type { Locale } from "@shared/types";
+import shared from "@/styles/shared.module.css";
+import formStyles from "./AdminProductFormPage.module.css";
+
+type AdminOutletContext = { token: string };
+
+const LOCALES: Locale[] = ["es", "en"];
+
+function settingsToForm(settings: StoreSettingsData) {
+  return {
+    storeSlug: settings.storeSlug,
+    storeNameEs: settings.storeName.es,
+    storeNameEn: settings.storeName.en,
+    descriptionEs: settings.description.es,
+    descriptionEn: settings.description.en,
+    defaultLocale: settings.defaultLocale,
+    currency: settings.currency,
+    taxRatePercent: String(Math.round(settings.taxRate * 1000) / 10),
+    primaryColor: settings.primaryColor,
+    logoUrl: settings.logoUrl,
+    phoneCountryCode: settings.phone.defaultCountryCode,
+    phoneLocalDigits: String(settings.phone.localDigits),
+    emailFrom: settings.email.from,
+    ownerEmail: settings.contact.ownerEmail,
+    whatsappCountryCode: settings.contact.whatsappCountryCode,
+    whatsappNumber: settings.contact.whatsappNumber,
+    instagramUrl: settings.contact.instagramUrl,
+    bankNameEs: settings.payment.bankTransfer.bankName.es,
+    bankNameEn: settings.payment.bankTransfer.bankName.en,
+    accountName: settings.payment.bankTransfer.accountName,
+    accountNumber: settings.payment.bankTransfer.accountNumber,
+    accountTypeEs: settings.payment.bankTransfer.accountType.es,
+    accountTypeEn: settings.payment.bankTransfer.accountType.en,
+    referenceHintEs: settings.payment.bankTransfer.referenceHint.es,
+    referenceHintEn: settings.payment.bankTransfer.referenceHint.en,
+  };
+}
+
+type FormState = ReturnType<typeof settingsToForm>;
+
+function formToSettings(form: FormState): StoreSettingsData {
+  const taxRate = Number(form.taxRatePercent) / 100;
+  return {
+    storeSlug: form.storeSlug.trim(),
+    storeName: { es: form.storeNameEs.trim(), en: form.storeNameEn.trim() },
+    description: { es: form.descriptionEs.trim(), en: form.descriptionEn.trim() },
+    defaultLocale: form.defaultLocale as Locale,
+    supportedLocales: LOCALES,
+    currency: form.currency.trim(),
+    taxRate: Number.isFinite(taxRate) ? taxRate : 0.18,
+    primaryColor: form.primaryColor.trim(),
+    logoUrl: form.logoUrl.trim(),
+    phone: {
+      defaultCountryCode: form.phoneCountryCode.trim(),
+      localDigits: Number(form.phoneLocalDigits) || 10,
+    },
+    email: { from: form.emailFrom.trim() },
+    contact: {
+      whatsappCountryCode: form.whatsappCountryCode.trim(),
+      whatsappNumber: form.whatsappNumber.trim(),
+      instagramUrl: form.instagramUrl.trim(),
+      ownerEmail: form.ownerEmail.trim(),
+    },
+    payment: {
+      provider: "bank_transfer_proof",
+      bankTransfer: {
+        bankName: { es: form.bankNameEs.trim(), en: form.bankNameEn.trim() },
+        accountName: form.accountName.trim(),
+        accountNumber: form.accountNumber.trim(),
+        accountType: { es: form.accountTypeEs.trim(), en: form.accountTypeEn.trim() },
+        referenceHint: {
+          es: form.referenceHintEs.trim(),
+          en: form.referenceHintEn.trim(),
+        },
+      },
+    },
+    orderStatuses: [
+      "payment_confirmation_pending",
+      "confirmed",
+      "in_production",
+      "delivered",
+      "cancelled",
+    ],
+    defaultOrderStatus: "payment_confirmation_pending",
+  };
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className={shared.card}>
+      <h2 style={{ margin: "0 0 1rem", fontSize: "1.125rem" }}>{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+export function AdminSettingsPage() {
+  const { t } = useTranslation();
+  const { token } = useOutletContext<AdminOutletContext>();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [form, setForm] = useState<FormState | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchAdminSettings(token);
+        if (cancelled) return;
+        setForm(settingsToForm(data.settings));
+        setSavedAt(data.updatedAt);
+      } catch (err) {
+        if (!cancelled) setError(err instanceof Error ? err.message : "error");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
+  const updateField = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((prev) => (prev ? { ...prev, [key]: value } : prev));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!form) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const result = await updateAdminSettings(token, formToSettings(form));
+      setForm(settingsToForm(result.settings));
+      setSavedAt(result.updatedAt);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading || !form) {
+    return <p>{t("common.loading")}</p>;
+  }
+
+  return (
+    <>
+      <Link to="/admin/orders" className={formStyles.backLink}>
+        {t("admin.backToOrders")}
+      </Link>
+      <header className={shared.pageHeader}>
+        <h1>{t("admin.settings.title")}</h1>
+        <p>{t("admin.settings.subtitle")}</p>
+        {savedAt && <p className={shared.fieldHint}>{t("admin.settings.lastSaved", { date: savedAt })}</p>}
+      </header>
+
+      <form className={formStyles.form} onSubmit={(e) => void handleSubmit(e)}>
+        <Section title={t("admin.settings.storeSection")}>
+          <div className={shared.field}>
+            <label htmlFor="settings-slug">{t("admin.settings.storeSlug")}</label>
+            <input
+              id="settings-slug"
+              value={form.storeSlug}
+              onChange={(e) => updateField("storeSlug", e.target.value)}
+            />
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-name-es">{t("admin.products.nameEs")}</label>
+              <input
+                id="settings-name-es"
+                value={form.storeNameEs}
+                onChange={(e) => updateField("storeNameEs", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-name-en">{t("admin.products.nameEn")}</label>
+              <input
+                id="settings-name-en"
+                value={form.storeNameEn}
+                onChange={(e) => updateField("storeNameEn", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-desc-es">{t("admin.products.descEs")}</label>
+              <textarea
+                id="settings-desc-es"
+                rows={2}
+                value={form.descriptionEs}
+                onChange={(e) => updateField("descriptionEs", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-desc-en">{t("admin.products.descEn")}</label>
+              <textarea
+                id="settings-desc-en"
+                rows={2}
+                value={form.descriptionEn}
+                onChange={(e) => updateField("descriptionEn", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-locale">{t("admin.settings.defaultLocale")}</label>
+              <select
+                id="settings-locale"
+                value={form.defaultLocale}
+                onChange={(e) => updateField("defaultLocale", e.target.value as Locale)}
+              >
+                <option value="es">ES</option>
+                <option value="en">EN</option>
+              </select>
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-currency">{t("admin.settings.currency")}</label>
+              <input
+                id="settings-currency"
+                value={form.currency}
+                onChange={(e) => updateField("currency", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-tax">{t("admin.settings.taxRate")}</label>
+              <input
+                id="settings-tax"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={form.taxRatePercent}
+                onChange={(e) => updateField("taxRatePercent", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-color">{t("admin.settings.primaryColor")}</label>
+              <input
+                id="settings-color"
+                value={form.primaryColor}
+                onChange={(e) => updateField("primaryColor", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-logo">{t("admin.settings.logoUrl")}</label>
+            <input
+              id="settings-logo"
+              value={form.logoUrl}
+              onChange={(e) => updateField("logoUrl", e.target.value)}
+            />
+          </div>
+        </Section>
+
+        <Section title={t("admin.settings.contactSection")}>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-phone-cc">{t("admin.settings.phoneCountryCode")}</label>
+              <input
+                id="settings-phone-cc"
+                value={form.phoneCountryCode}
+                onChange={(e) => updateField("phoneCountryCode", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-phone-digits">{t("admin.settings.phoneLocalDigits")}</label>
+              <input
+                id="settings-phone-digits"
+                type="number"
+                value={form.phoneLocalDigits}
+                onChange={(e) => updateField("phoneLocalDigits", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-email-from">{t("admin.settings.emailFrom")}</label>
+            <input
+              id="settings-email-from"
+              value={form.emailFrom}
+              onChange={(e) => updateField("emailFrom", e.target.value)}
+            />
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-owner-email">{t("admin.settings.ownerEmail")}</label>
+            <input
+              id="settings-owner-email"
+              value={form.ownerEmail}
+              onChange={(e) => updateField("ownerEmail", e.target.value)}
+            />
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-wa-cc">{t("admin.settings.whatsappCountryCode")}</label>
+              <input
+                id="settings-wa-cc"
+                value={form.whatsappCountryCode}
+                onChange={(e) => updateField("whatsappCountryCode", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-wa-number">{t("admin.settings.whatsappNumber")}</label>
+              <input
+                id="settings-wa-number"
+                value={form.whatsappNumber}
+                onChange={(e) => updateField("whatsappNumber", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-instagram">{t("admin.settings.instagramUrl")}</label>
+            <input
+              id="settings-instagram"
+              value={form.instagramUrl}
+              onChange={(e) => updateField("instagramUrl", e.target.value)}
+            />
+          </div>
+        </Section>
+
+        <Section title={t("admin.settings.bankSection")}>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-bank-es">{t("admin.settings.bankNameEs")}</label>
+              <input
+                id="settings-bank-es"
+                value={form.bankNameEs}
+                onChange={(e) => updateField("bankNameEs", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-bank-en">{t("admin.settings.bankNameEn")}</label>
+              <input
+                id="settings-bank-en"
+                value={form.bankNameEn}
+                onChange={(e) => updateField("bankNameEn", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-account-name">{t("admin.settings.accountName")}</label>
+            <input
+              id="settings-account-name"
+              value={form.accountName}
+              onChange={(e) => updateField("accountName", e.target.value)}
+            />
+          </div>
+          <div className={shared.field}>
+            <label htmlFor="settings-account-number">{t("admin.settings.accountNumber")}</label>
+            <input
+              id="settings-account-number"
+              value={form.accountNumber}
+              onChange={(e) => updateField("accountNumber", e.target.value)}
+            />
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-account-type-es">{t("admin.settings.accountTypeEs")}</label>
+              <input
+                id="settings-account-type-es"
+                value={form.accountTypeEs}
+                onChange={(e) => updateField("accountTypeEs", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-account-type-en">{t("admin.settings.accountTypeEn")}</label>
+              <input
+                id="settings-account-type-en"
+                value={form.accountTypeEn}
+                onChange={(e) => updateField("accountTypeEn", e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={formStyles.twoCol}>
+            <div className={shared.field}>
+              <label htmlFor="settings-ref-es">{t("admin.settings.referenceHintEs")}</label>
+              <textarea
+                id="settings-ref-es"
+                rows={2}
+                value={form.referenceHintEs}
+                onChange={(e) => updateField("referenceHintEs", e.target.value)}
+              />
+            </div>
+            <div className={shared.field}>
+              <label htmlFor="settings-ref-en">{t("admin.settings.referenceHintEn")}</label>
+              <textarea
+                id="settings-ref-en"
+                rows={2}
+                value={form.referenceHintEn}
+                onChange={(e) => updateField("referenceHintEn", e.target.value)}
+              />
+            </div>
+          </div>
+        </Section>
+
+        {error && <p className={shared.error}>{error}</p>}
+
+        <button type="submit" className={shared.button} disabled={saving}>
+          {saving ? t("common.loading") : t("admin.settings.save")}
+        </button>
+      </form>
+    </>
+  );
+}

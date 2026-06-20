@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import type { Locale } from "../../shared/types.js";
-import { storeConfig } from "./config.js";
+import type { StoreSettingsData } from "../../shared/storeSettings.types.js";
+import { getStoreConfig, localizedField } from "./storeSettings.js";
 import type { OrderItemRow, OrderRow } from "../../shared/db.types.js";
 
 function getResend() {
@@ -9,26 +10,22 @@ function getResend() {
   return new Resend(key);
 }
 
-function localized(field: Record<Locale, string>, locale: Locale): string {
-  return field[locale] ?? field[storeConfig.defaultLocale];
-}
-
-function formatMoney(amount: number | string, locale: Locale): string {
+function formatMoney(amount: number | string, locale: Locale, config: StoreSettingsData): string {
   return new Intl.NumberFormat(locale === "es" ? "es-DO" : "en-US", {
     style: "currency",
-    currency: storeConfig.currency,
+    currency: config.currency,
     minimumFractionDigits: 0,
   }).format(Number(amount));
 }
 
-function itemsHtml(items: OrderItemRow[], locale: Locale): string {
+function itemsHtml(items: OrderItemRow[], locale: Locale, config: StoreSettingsData): string {
   return items
     .map((item) => {
       const variants = Object.entries(item.variants)
         .map(([k, v]) => `${k}: ${v}`)
         .join(", ");
       const lineTotal = Number(item.unit_price) * item.quantity;
-      return `<li>${item.product_name}${variants ? ` (${variants})` : ""} × ${item.quantity} — ${formatMoney(lineTotal, locale)}</li>`;
+      return `<li>${item.product_name}${variants ? ` (${variants})` : ""} × ${item.quantity} — ${formatMoney(lineTotal, locale, config)}</li>`;
     })
     .join("");
 }
@@ -44,10 +41,11 @@ export async function sendCheckoutEmails(params: {
     return;
   }
 
+  const config = await getStoreConfig();
   const locale = params.order.locale as Locale;
-  const total = formatMoney(params.order.total, locale);
-  const list = itemsHtml(params.items, locale);
-  const from = storeConfig.email.from;
+  const total = formatMoney(params.order.total, locale, config);
+  const list = itemsHtml(params.items, locale, config);
+  const from = config.email.from;
 
   const customerSubject =
     locale === "es"
@@ -99,7 +97,7 @@ export async function sendCheckoutEmails(params: {
   try {
     await resend.emails.send({
       from,
-      to: storeConfig.contact.ownerEmail,
+      to: config.contact.ownerEmail,
       subject: ownerSubject,
       html: ownerHtml,
     });
@@ -112,10 +110,12 @@ export async function sendProofUploadedEmail(order: OrderRow) {
   const resend = getResend();
   if (!resend) return;
 
+  const config = await getStoreConfig();
+
   try {
     await resend.emails.send({
-      from: storeConfig.email.from,
-      to: storeConfig.contact.ownerEmail,
+      from: config.email.from,
+      to: config.contact.ownerEmail,
       subject: `Proof uploaded — ${order.display_id}`,
       html: `<p>Payment proof uploaded for order <strong>${order.display_id}</strong>.</p>
         <p>Buyer: ${order.buyer_name} (${order.buyer_phone})</p>`,
@@ -125,13 +125,13 @@ export async function sendProofUploadedEmail(order: OrderRow) {
   }
 }
 
-export function getBankTransferDetails(locale: Locale) {
-  const bt = storeConfig.payment.bankTransfer;
+export function getBankTransferDetails(locale: Locale, config: StoreSettingsData) {
+  const bt = config.payment.bankTransfer;
   return {
-    bankName: localized(bt.bankName, locale),
+    bankName: localizedField(bt.bankName, locale, config),
     accountName: bt.accountName,
     accountNumber: bt.accountNumber,
-    accountType: localized(bt.accountType, locale),
-    referenceHint: localized(bt.referenceHint, locale),
+    accountType: localizedField(bt.accountType, locale, config),
+    referenceHint: localizedField(bt.referenceHint, locale, config),
   };
 }

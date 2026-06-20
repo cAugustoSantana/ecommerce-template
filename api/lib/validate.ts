@@ -1,7 +1,9 @@
 import type { Locale } from "../../shared/types.js";
-import { storeConfig } from "./config.js";
+import { storeConfig } from "../../shared/store.config.js";
+import { getStoreConfig } from "./storeSettings.js";
 import { getProductById } from "./products.js";
 import type { Product } from "../../shared/product.types.js";
+import type { StoreSettingsData } from "../../shared/storeSettings.types.js";
 
 export type CartLineInput = {
   productId: string;
@@ -32,9 +34,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_QUANTITY = 99;
 const MAX_LINES = 20;
 
-export function normalizePhone(raw: string): string {
+export function normalizePhone(raw: string, config: StoreSettingsData): string {
   const digits = raw.replace(/\D/g, "");
-  const { defaultCountryCode, localDigits } = storeConfig.phone;
+  const { defaultCountryCode, localDigits } = config.phone;
 
   if (digits.length === localDigits) {
     return `${defaultCountryCode}${digits}`;
@@ -50,8 +52,8 @@ export function isValidEmail(email: string): boolean {
   return EMAIL_RE.test(email.trim());
 }
 
-export function isSupportedLocale(locale: string): locale is Locale {
-  return (storeConfig.supportedLocales as readonly string[]).includes(locale);
+export function isSupportedLocale(locale: string, config: StoreSettingsData): locale is Locale {
+  return (config.supportedLocales as readonly string[]).includes(locale);
 }
 
 function validateVariants(
@@ -93,17 +95,19 @@ export async function validateCheckout(
   lines: ValidatedCartLine[];
   total: number;
 }> {
+  const config = await getStoreConfig();
+
   if (input.honeypot) {
     throw new Error("honeypot");
   }
 
-  if (!isSupportedLocale(input.locale)) {
+  if (!isSupportedLocale(input.locale, config)) {
     throw new Error("invalid_locale");
   }
 
   const name = input.buyer?.name?.trim();
   const email = input.buyer?.email?.trim();
-  const phoneDigits = normalizePhone(input.buyer?.phone ?? "");
+  const phoneDigits = normalizePhone(input.buyer?.phone ?? "", config);
 
   if (!name) throw new Error("invalid_name");
   if (!isValidEmail(email ?? "")) throw new Error("invalid_email");
@@ -143,7 +147,7 @@ export async function validateCheckout(
 
     lines.push({
       productId: product.id,
-      productName: product.name[input.locale] ?? product.name[storeConfig.defaultLocale],
+      productName: product.name[input.locale] ?? product.name[config.defaultLocale],
       variants,
       quantity: qty,
       unitPrice,

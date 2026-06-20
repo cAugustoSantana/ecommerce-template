@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useProducts } from "@/context/ProductsContext";
-import { storeConfig } from "@shared/store.config";
+import { useStoreConfig } from "@/context/StoreSettingsContext";
 import type { CartLine } from "@/types/commerce";
 
 type CartContextValue = {
@@ -77,8 +77,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }, 0);
   }, [lines, getProduct]);
 
-  const taxRate = storeConfig.taxRate;
-  const taxAmount = useMemo(() => Math.round(total * taxRate), [total]);
+  const { taxRate } = useStoreConfig();
+  const taxAmount = useMemo(() => Math.round(total * taxRate), [total, taxRate]);
   const grandTotal = total + taxAmount;
 
   useEffect(() => {

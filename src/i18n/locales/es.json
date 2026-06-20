@@ -15,6 +15,13 @@
     "addToOrder": "Agregar al pedido",
     "quantity": "Cantidad"
   },
+  "footer": {
+    "template": {
+      "title": "¿Quieres vender en línea como esta tienda?",
+      "subtitle": "Usa esta plantilla para lanzar tu catálogo, recibir pedidos y empezar a vender en minutos.",
+      "cta": "Comienza a vender"
+    }
+  },
   "productDetail": {
     "backToCatalog": "Volver al catálogo",
     "viewProduct": "Ver producto",
@@ -147,7 +154,38 @@
     "payment": "Pago",
     "nav": {
       "orders": "Pedidos",
-      "products": "Productos"
+      "products": "Productos",
+      "settings": "Configuración"
+    },
+    "settings": {
+      "title": "Configuración de la tienda",
+      "subtitle": "Configura metadatos de la tienda, contacto y datos de transferencia bancaria.",
+      "save": "Guardar configuración",
+      "lastSaved": "Última guardada: {{date}}",
+      "storeSection": "Identidad de la tienda",
+      "contactSection": "Contacto y notificaciones",
+      "bankSection": "Transferencia bancaria",
+      "storeSlug": "Prefijo de pedido (slug)",
+      "defaultLocale": "Idioma predeterminado",
+      "currency": "Código de moneda",
+      "taxRate": "Tasa de impuesto (%)",
+      "primaryColor": "Color primario (hex)",
+      "logoUrl": "URL del logo",
+      "phoneCountryCode": "Código de país (teléfono)",
+      "phoneLocalDigits": "Dígitos locales del teléfono",
+      "emailFrom": "Remitente de email (from)",
+      "ownerEmail": "Email de notificaciones al dueño",
+      "whatsappCountryCode": "Código de país WhatsApp",
+      "whatsappNumber": "Número WhatsApp",
+      "instagramUrl": "URL de Instagram",
+      "bankNameEs": "Nombre del banco (ES)",
+      "bankNameEn": "Nombre del banco (EN)",
+      "accountName": "Titular de la cuenta",
+      "accountNumber": "Número de cuenta",
+      "accountTypeEs": "Tipo de cuenta (ES)",
+      "accountTypeEn": "Tipo de cuenta (EN)",
+      "referenceHintEs": "Referencia de transferencia (ES)",
+      "referenceHintEn": "Referencia de transferencia (EN)"
     },
     "products": {
       "title": "Productos",

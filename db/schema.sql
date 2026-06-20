@@ -71,3 +71,11 @@ CREATE INDEX IF NOT EXISTS products_active_sort_idx ON products (active, sort_or
 
 COMMENT ON TABLE products IS 'Store catalog; name/description are localized JSONB { es, en }';
 COMMENT ON COLUMN products.variant_options IS 'Variant groups JSON matching shared Product.variantOptions shape';
+
+CREATE TABLE IF NOT EXISTS store_settings (
+  id SMALLINT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+  config JSONB NOT NULL,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+COMMENT ON TABLE store_settings IS 'Single-row store metadata overrides; merged with shared/store.config.ts defaults';

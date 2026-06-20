@@ -1,11 +1,12 @@
 import { randomUUID } from "crypto";
-import { storeConfig } from "./config.js";
+import { storeConfig } from "../../shared/store.config.js";
+import { getStoreConfig } from "./storeSettings.js";
 import { getSql } from "./db.js";
 import type { OrderItemRow, OrderRow, OrderWithItems } from "../../shared/db.types.js";
 
-export function buildDisplayId(uuid: string): string {
+export function buildDisplayId(uuid: string, storeSlug = storeConfig.storeSlug): string {
   const hex = uuid.replace(/-/g, "");
-  return `${storeConfig.storeSlug}-${hex.slice(-5).toLowerCase()}`;
+  return `${storeSlug}-${hex.slice(-5).toLowerCase()}`;
 }
 
 export async function createOrder(params: {
@@ -21,9 +22,10 @@ export async function createOrder(params: {
     unitPrice: number;
   }[];
 }): Promise<{ order: OrderRow; items: OrderItemRow[] }> {
+  const config = await getStoreConfig();
   const sql = getSql();
   const id = randomUUID();
-  let displayId = buildDisplayId(id);
+  let displayId = buildDisplayId(id, config.storeSlug);
 
   for (let attempt = 0; attempt < 5; attempt++) {
     try {
@@ -38,10 +40,10 @@ export async function createOrder(params: {
           ${params.buyer.name},
           ${params.buyer.phone},
           ${params.buyer.email},
-          ${storeConfig.defaultOrderStatus},
+          ${config.defaultOrderStatus},
           ${params.total},
           ${params.locale},
-          ${storeConfig.payment.provider},
+          ${config.payment.provider},
           ${params.shipping.address},
           ${params.shipping.city},
           ${params.shipping.postalCode}
@@ -80,7 +82,7 @@ export async function createOrder(params: {
     } catch (err: unknown) {
       const code = (err as { code?: string })?.code;
       if (code === "23505" && attempt < 4) {
-        displayId = buildDisplayId(randomUUID());
+        displayId = buildDisplayId(randomUUID(), config.storeSlug);
         continue;
       }
       throw err;

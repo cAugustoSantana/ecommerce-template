@@ -1,5 +1,7 @@
 import { vi } from "vitest";
 import type { Product } from "@shared/product.types";
+import { storeConfig } from "@shared/store.config";
+import type { PublicStoreSettings } from "@shared/storeSettings.types";
 
 export const mockProducts: Product[] = [
   {
@@ -55,6 +57,31 @@ export const mockProducts: Product[] = [
   },
 ];
 
+export function mockPublicStoreSettings(): { settings: PublicStoreSettings } {
+  return {
+    settings: {
+      storeSlug: storeConfig.storeSlug,
+      storeName: storeConfig.storeName,
+      description: storeConfig.description,
+      defaultLocale: storeConfig.defaultLocale,
+      supportedLocales: [...storeConfig.supportedLocales],
+      currency: storeConfig.currency,
+      taxRate: storeConfig.taxRate,
+      primaryColor: storeConfig.primaryColor,
+      logoUrl: storeConfig.logoUrl,
+      phone: storeConfig.phone,
+      contact: {
+        whatsappCountryCode: storeConfig.contact.whatsappCountryCode,
+        whatsappNumber: storeConfig.contact.whatsappNumber,
+        instagramUrl: storeConfig.contact.instagramUrl,
+      },
+      payment: storeConfig.payment,
+      orderStatuses: [...storeConfig.orderStatuses],
+      defaultOrderStatus: storeConfig.defaultOrderStatus,
+    },
+  };
+}
+
 export function mockProductsFetch() {
   vi.stubGlobal(
     "fetch",
@@ -62,6 +89,12 @@ export function mockProductsFetch() {
       const url = String(input);
       if (url.includes("/api/products")) {
         return new Response(JSON.stringify({ products: mockProducts }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      if (url.includes("/api/settings")) {
+        return new Response(JSON.stringify(mockPublicStoreSettings()), {
           status: 200,
           headers: { "Content-Type": "application/json" },
         });

@@ -15,7 +15,7 @@ import { useProducts } from "@/context/ProductsContext";
 import { cartLineTileClass, formatCartVariants } from "@/lib/cartDisplay";
 import { formatMoney } from "@/lib/format";
 import { getLocalized } from "@/lib/localized";
-import { storeConfig } from "@shared/store.config";
+import { useStoreConfig } from "@/context/StoreSettingsContext";
 import type { Locale } from "@shared/types";
 
 function lineIcon(productId: string) {
@@ -39,10 +39,10 @@ export function CartDrawer() {
     closeDrawer,
   } = useCart();
   const { getProduct } = useProducts();
+  const settings = useStoreConfig();
+  const taxPercent = Math.round(settings.taxRate * 100);
 
   if (!isDrawerOpen) return null;
-
-  const taxPercent = Math.round(storeConfig.taxRate * 100);
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end" role="presentation">

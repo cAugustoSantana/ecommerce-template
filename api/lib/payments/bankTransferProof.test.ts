@@ -9,16 +9,16 @@ import {
 import { getPaymentProvider } from "./index.js";
 
 describe("bankTransferProof", () => {
-  it("returns bank transfer instructions for locale", () => {
-    const instructions = getPaymentInstructions("es");
+  it("returns bank transfer instructions for locale", async () => {
+    const instructions = await getPaymentInstructions("es");
     expect(instructions.provider).toBe("bank_transfer_proof");
     expect(instructions.bankTransfer.accountNumber).toBe("1234567890");
     expect(instructions.bankTransfer.bankName).toBeTruthy();
   });
 
-  it("localizes bank name by locale", () => {
-    const es = getPaymentInstructions("es");
-    const en = getPaymentInstructions("en");
+  it("localizes bank name by locale", async () => {
+    const es = await getPaymentInstructions("es");
+    const en = await getPaymentInstructions("en");
     expect(es.bankTransfer.accountType).not.toBe(en.bankTransfer.accountType);
   });
 
@@ -33,9 +33,9 @@ describe("bankTransferProof", () => {
 });
 
 describe("getPaymentProvider", () => {
-  it("exposes getInstructions", () => {
+  it("exposes getInstructions", async () => {
     const provider = getPaymentProvider();
-    const instructions = provider.getInstructions("en");
+    const instructions = await provider.getInstructions("en");
     expect(instructions.provider).toBe("bank_transfer_proof");
   });
 });

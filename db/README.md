@@ -35,6 +35,12 @@ psql "$DATABASE_URL" -f db/migrations/002_products.sql
 psql "$DATABASE_URL" -f db/seed/products.sql
 ```
 
+Existing branch (store settings admin panel):
+
+```bash
+psql "$DATABASE_URL" -f db/migrations/004_store_settings.sql
+```
+
 ## Seed demo products
 
 After the `products` table exists, load the demo catalog (required for E2E and local storefront):
@@ -49,10 +55,10 @@ Greenfield installs: `schema.sql` includes the `products` table definition but *
 
 ```sql
 SELECT table_name FROM information_schema.tables
-WHERE table_schema = 'public' AND table_name IN ('orders', 'order_items', 'products');
+WHERE table_schema = 'public' AND table_name IN ('orders', 'order_items', 'products', 'store_settings');
 ```
 
-Expected: three rows.
+Expected: four rows when store settings migration has been applied.
 
 ```sql
 SELECT id, active FROM products ORDER BY sort_order;
@@ -67,6 +73,7 @@ Expected: `prod-1`, `prod-2` when seed has been applied.
 | [`schema.sql`](./schema.sql) | Full schema for new branches |
 | [`migrations/002_products.sql`](./migrations/002_products.sql) | Add `products` table to existing branches |
 | [`migrations/003_orders_shipping.sql`](./migrations/003_orders_shipping.sql) | Add shipping fields to `orders` |
+| [`migrations/004_store_settings.sql`](./migrations/004_store_settings.sql) | Add `store_settings` table for admin-editable store metadata |
 | [`seed/products.sql`](./seed/products.sql) | Demo catalog (`prod-1`, `prod-2`) |
 
 Add numbered files under `db/migrations/` for future changes. Do not edit `schema.sql` in place after a branch has been initialized — add a migration instead.
@@ -78,5 +85,7 @@ Add numbered files under `db/migrations/` for future changes. Do not edit `schem
 **order_items:** `id`, `order_id`, `product_id`, `product_name`, `variants`, `quantity`, `unit_price`
 
 **products:** `id`, `name`, `description`, `price`, `image_url`, `variant_options`, `active`, `sort_order`, `created_at`, `updated_at`
+
+**store_settings:** `id` (always `1`), `config` (JSONB overrides merged with `shared/store.config.ts`), `updated_at`
 
 Status values are **canonical keys** from `shared/store.config.ts` (`payment_confirmation_pending`, `confirmed`, …), not translated labels.

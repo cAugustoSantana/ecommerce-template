@@ -34,6 +34,14 @@ export function AdminLayout() {
           >
             {t("admin.nav.products")}
           </NavLink>
+          <NavLink
+            to="/admin/settings"
+            className={({ isActive }) =>
+              `${layoutStyles.navLink}${isActive ? ` ${layoutStyles.navLinkActive}` : ""}`
+            }
+          >
+            {t("admin.nav.settings")}
+          </NavLink>
         </nav>
         <div className={layoutStyles.sidebarFooter}>
           <button type="button" className={styles.logoutBtn} onClick={logout}>

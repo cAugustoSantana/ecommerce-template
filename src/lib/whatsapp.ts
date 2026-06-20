@@ -1,15 +1,13 @@
 import { storeConfig } from "@shared/store.config";
 
-function storeWhatsAppDigits(): string {
-  return `${storeConfig.contact.whatsappCountryCode}${storeConfig.contact.whatsappNumber}`.replace(
-    /\D/g,
-    "",
-  );
-}
-
-export function buildStoreWhatsAppUrl(text: string): string {
-  const digits = storeWhatsAppDigits();
-  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+export function buildStoreWhatsAppUrl(text: string, digits?: string): string {
+  const resolved =
+    digits ??
+    `${storeConfig.contact.whatsappCountryCode}${storeConfig.contact.whatsappNumber}`.replace(
+      /\D/g,
+      "",
+    );
+  return `https://wa.me/${resolved}?text=${encodeURIComponent(text)}`;
 }
 
 export function buildBuyerWhatsAppUrl(buyerPhoneDigits: string, text?: string): string {
