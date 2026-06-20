@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import { useActiveOrder } from "@/hooks/useActiveOrder";
 import { fetchPublicOrder } from "@/lib/api";
@@ -16,7 +17,7 @@ export function PendingOrderBanner() {
       setShow(false);
       return;
     }
-    if (location.pathname === `/order/payment/${displayId}`) {
+    if (location.pathname === routes.demoPayment(displayId)) {
       setShow(false);
       return;
     }
@@ -47,7 +48,7 @@ export function PendingOrderBanner() {
     >
       <span>{t("payment.resumeBanner")}</span>
       <Link
-        to={`/order/payment/${displayId}`}
+        to={routes.demoPayment(displayId)}
         className="font-semibold text-brand-600 hover:underline"
       >
         {t("payment.resumeCta")}

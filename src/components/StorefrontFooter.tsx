@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Storefront } from "@phosphor-icons/react";
 import { useStoreConfig } from "@/context/StoreSettingsContext";
@@ -10,30 +11,31 @@ export function StorefrontFooter() {
   const locale = i18n.language as Locale;
   const year = new Date().getFullYear();
   const settings = useStoreConfig();
+  const onLandingPage = useLocation().pathname === routes.home;
 
   return (
     <footer className="mt-auto shrink-0 border-t border-gray-200/80 bg-white print:hidden">
-      <section className="border-b border-brand-500/20 bg-gradient-to-br from-brand-600 via-brand-600 to-brand-700 text-white">
+      {!onLandingPage && (
+        <section className="border-b border-vya-blue/20 bg-gradient-to-br from-vya-blue via-brand-600 to-brand-700 text-white">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-4 px-4 py-5 text-center md:flex-row md:justify-between md:text-left lg:px-8 lg:py-6">
           <div className="max-w-xl">
             <p className="text-base font-bold tracking-tight lg:text-lg">
               {t("footer.template.title")}
             </p>
-            <p className="mt-1 text-sm leading-relaxed text-brand-100">
+            <p className="mt-1 text-sm leading-relaxed text-white/75">
               {t("footer.template.subtitle")}
             </p>
           </div>
-          <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-bold text-brand-700 shadow-lg shadow-brand-900/20 transition-transform hover:-translate-y-0.5 hover:bg-brand-50"
+          <Link
+            to={routes.home}
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-vya-yellow px-5 py-2.5 text-sm font-bold text-vya-blue shadow-lg shadow-black/10 transition-transform hover:-translate-y-0.5 hover:brightness-95"
           >
             {t("footer.template.cta")}
             <ArrowRight size={16} weight="bold" aria-hidden />
-          </a>
+          </Link>
         </div>
       </section>
+      )}
 
       <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 px-4 py-5 md:flex-row lg:px-8">
         <div className="flex items-center gap-2">

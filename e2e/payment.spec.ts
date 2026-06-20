@@ -26,7 +26,7 @@ test("payment page survives reload with bank details from API", async ({ page })
 });
 
 test("whatsapp proof records method", async ({ page }) => {
-  await page.goto(`/order/payment/${displayId}`);
+  await page.goto(`/demo/order/payment/${displayId}`);
   await page.evaluate(() => {
     (window as Window & { __opened?: string[] }).__opened = [];
     window.open = (url) => {
@@ -54,7 +54,7 @@ test("upload png proof updates payment page", async ({ page }, testInfo) => {
   const proofPath = path.join(import.meta.dirname, "fixtures", "proof.png");
   writeProofPng(proofPath);
 
-  await page.goto(`/order/payment/${displayId}`);
+  await page.goto(`/demo/order/payment/${displayId}`);
   const fileInput = page.locator('input[type="file"]');
   await fileInput.setInputFiles(proofPath);
 
@@ -64,7 +64,7 @@ test("upload png proof updates payment page", async ({ page }, testInfo) => {
 });
 
 test("rejects non-image proof upload", async ({ page }) => {
-  await page.goto(`/order/payment/${displayId}`);
+  await page.goto(`/demo/order/payment/${displayId}`);
   await page.locator('input[type="file"]').setInputFiles({
     name: "notes.txt",
     mimeType: "text/plain",

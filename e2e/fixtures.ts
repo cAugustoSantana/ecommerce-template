@@ -6,7 +6,7 @@ export { expect, hasE2eBlob, hasE2eDatabase, uniqueEmail };
 export const test = base;
 
 export async function gotoStorefront(page: Page) {
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/demo", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: /Catálogo|Catalog/ })).toBeVisible();
   await expect(
     page.getByRole("link", { name: /Camiseta|Basic T-shirt|Gorra|Logo Cap|Ver producto|View product/i }).first(),
@@ -19,7 +19,7 @@ export async function openDefaultProduct(page: Page) {
     .getByRole("link", { name: /Camiseta|Basic T-shirt/i })
     .first()
     .click();
-  await page.waitForURL(/\/products\//);
+  await page.waitForURL(/\/demo\/products\//);
   await expect(
     page.getByRole("button", { name: /Agregar al pedido|Add to order/i }),
   ).toBeVisible();
@@ -65,7 +65,7 @@ export async function completeCheckout(page: Page): Promise<string> {
   await goToCheckoutFromDrawer(page);
   await fillCheckoutForm(page);
   await page.getByRole("button", { name: /Finalizar pedido|Place order/i }).click();
-  await page.waitForURL(/\/order\/payment\/MITIENDA-[a-f0-9]+/i);
+  await page.waitForURL(/\/demo\/order\/payment\/MITIENDA-[a-f0-9]+/i);
   const match = page.url().match(/MITIENDA-[a-f0-9]+/i);
   if (!match) throw new Error("checkout did not redirect to payment page");
   return match[0];

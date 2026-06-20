@@ -46,7 +46,7 @@
 .backLink {
   display: inline-block;
   margin-bottom: 1rem;
-  color: var(--color-primary, #2563eb);
+  color: var(--color-primary, #0f2d6b);
   text-decoration: none;
   font-size: 0.875rem;
 }
@@ -141,7 +141,7 @@
 }
 
 .detailList a {
-  color: var(--color-primary, #2563eb);
+  color: var(--color-primary, #0f2d6b);
 }
 
 .timeline {
@@ -171,7 +171,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--color-primary, #2563eb);
+  background: var(--color-primary, #0f2d6b);
   flex-shrink: 0;
   margin-top: 0.25rem;
 }

@@ -16,4 +16,5 @@ export function applyPublicStoreSettings(settings: PublicStoreSettings): void {
   currency = settings.currency;
   primaryColor = settings.primaryColor;
   document.documentElement.style.setProperty("--color-primary", settings.primaryColor);
+  document.documentElement.style.setProperty("--color-accent", "#F5C518");
 }

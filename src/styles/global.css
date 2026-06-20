@@ -2,11 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #0f2d6b;
+  --color-accent: #f5c518;
+  --color-text: #1a1a2e;
+}
+
 html,
 body,
 #root {
   height: 100%;
   min-height: 100dvh;
+  color: var(--color-text);
 }
 
 #root {
@@ -52,4 +59,10 @@ input[type="number"] {
 
 .animate-slide-in {
   animation: slideIn 0.3s ease-out forwards;
+}
+
+@layer components {
+  .btn-cta {
+    @apply bg-vya-yellow font-bold text-vya-blue shadow-lg shadow-vya-yellow/25 transition-all hover:brightness-95 active:scale-[0.98] disabled:opacity-60;
+  }
 }

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
@@ -182,9 +183,9 @@ export function CartDrawer() {
           </div>
 
           <Link
-            to="/checkout"
+            to={routes.demoCheckout}
             onClick={closeDrawer}
-            className="mt-2 flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-600 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:bg-brand-700 active:scale-[0.98]"
+            className="mt-2 flex w-full items-center justify-center gap-3 rounded-2xl btn-cta px-6 py-4 text-lg"
           >
             {t("cart.proceedCheckout")}
             <ArrowRight size={20} weight="bold" aria-hidden />

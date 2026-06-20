@@ -44,8 +44,8 @@
   font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
-  background: var(--color-primary, #2563eb);
-  color: #fff;
+  background: var(--color-accent, #f5c518);
+  color: var(--color-primary, #0f2d6b);
   text-decoration: none;
 }
 

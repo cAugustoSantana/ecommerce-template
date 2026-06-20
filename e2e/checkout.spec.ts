@@ -1,7 +1,7 @@
 import { test, expect, hasE2eDatabase, fillCheckoutForm, addDefaultProductToCart, goToCheckoutFromDrawer } from "./fixtures";
 
 test("checkout without cart shows empty message", async ({ page }) => {
-  await page.goto("/checkout");
+  await page.goto("/demo/checkout");
   await expect(page.getByText(/Agrega productos|Add products/i)).toBeVisible();
 });
 

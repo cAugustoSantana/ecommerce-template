@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
@@ -86,8 +87,8 @@ export function PaymentPage() {
         <main className="mx-auto flex flex-1 flex-col items-center justify-center px-6 text-center">
           <p className="font-medium text-red-600">{error ?? t("common.error")}</p>
           <Link
-            to="/"
-            className="mt-6 inline-flex rounded-xl bg-brand-600 px-10 py-4 font-bold text-white hover:bg-brand-700"
+            to={routes.demo}
+            className="mt-6 inline-flex rounded-xl btn-cta px-10 py-4"
           >
             {t("common.continueShopping")}
           </Link>
@@ -106,7 +107,7 @@ export function PaymentPage() {
   const confirmedDate = formatConfirmedDate(order.createdAt, locale);
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-vya-text antialiased selection:bg-brand-100 selection:text-brand-900">
       <main className="mx-auto w-full max-w-[1440px] flex-1 overflow-y-auto px-4 py-5 lg:px-8 lg:py-6">
         <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
@@ -127,7 +128,7 @@ export function PaymentPage() {
           </div>
 
           <Link
-            to="/"
+            to={routes.demo}
             className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 print:hidden"
           >
             <ArrowLeft size={16} weight="bold" aria-hidden />

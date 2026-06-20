@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import type { Product } from "@shared/product.types";
 import type { Locale } from "@shared/types";
@@ -16,7 +17,7 @@ export function ProductCard({ product, locale }: Props) {
 
   return (
     <Link
-      to={`/products/${product.id}`}
+      to={routes.demoProduct(product.id)}
       className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md lg:max-h-[calc(100dvh-9.5rem)]"
     >
       <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-gray-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 lg:aspect-auto lg:min-h-0 lg:flex-1 lg:p-3">

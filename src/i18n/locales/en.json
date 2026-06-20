@@ -17,9 +17,83 @@
   },
   "footer": {
     "template": {
-      "title": "Want to sell online like this store?",
-      "subtitle": "Use this template to launch your catalog, take orders, and start selling in minutes.",
+      "title": "Want your own online store?",
+      "subtitle": "Get a beautiful storefront, order management, and everything you need — for one simple monthly fee.",
       "cta": "Start selling"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "Online store service",
+      "title": "Your online store, ready to sell — without the hassle",
+      "subtitle": "We give you a professional storefront, checkout, and order tools so you can focus on your products and customers. Sign up, customize your store, and start receiving orders.",
+      "ctaPrimary": "Start your store",
+      "ctaSecondary": "See an example store",
+      "highlight1": "Live in minutes, not months",
+      "highlight2": "One simple monthly plan",
+      "highlight3": "Cancel anytime"
+    },
+    "features": {
+      "title": "Everything you need to sell online",
+      "subtitle": "Like Shopify, but built for stores that take payment by bank transfer — simple, clear, and made for small businesses.",
+      "catalog": {
+        "title": "Beautiful product pages",
+        "desc": "Show your products with photos, sizes, and colors. Customers browse and add to cart from any phone."
+      },
+      "checkout": {
+        "title": "Easy checkout",
+        "desc": "Customers enter their details, place an order, and get a confirmation — you get notified instantly."
+      },
+      "payments": {
+        "title": "Bank transfer payments",
+        "desc": "Share your bank details on the order page and confirm payment when the transfer arrives."
+      },
+      "whatsapp": {
+        "title": "WhatsApp for payment proof",
+        "desc": "Customers can send their receipt over WhatsApp in one tap — no confusion, no chasing."
+      },
+      "admin": {
+        "title": "Manage orders in one place",
+        "desc": "See every order, update status, add products, and change your store info from a simple dashboard."
+      },
+      "i18n": {
+        "title": "Spanish & English",
+        "desc": "Serve customers in both languages with a storefront that switches in one click."
+      }
+    },
+    "pricing": {
+      "title": "Simple pricing, no surprises",
+      "subtitle": "One plan with everything included. No setup fees, no hidden costs.",
+      "planName": "Store plan",
+      "price": "$29",
+      "perMonth": "/ month",
+      "note": "Billed monthly. Cancel whenever you want.",
+      "include1": "Your own online storefront",
+      "include2": "Unlimited products and orders",
+      "include3": "Order dashboard and notifications",
+      "include4": "Hosting and updates included",
+      "cta": "Start your free trial"
+    },
+    "steps": {
+      "title": "Up and running in three steps",
+      "subtitle": "No developers, no complicated setup — just sign up and start selling.",
+      "signup": {
+        "title": "Create your account",
+        "desc": "Pick your plan, choose your store name, and we set up your shop for you."
+      },
+      "customize": {
+        "title": "Make it yours",
+        "desc": "Add your logo, products, bank details, and contact info from your dashboard."
+      },
+      "sell": {
+        "title": "Share and sell",
+        "desc": "Send your store link to customers and manage orders as they come in."
+      }
+    },
+    "closing": {
+      "title": "Ready to start selling online?",
+      "subtitle": "Join businesses that sell with a store that looks great and works on every phone — for one affordable monthly fee.",
+      "cta": "Get started today"
     }
   },
   "productDetail": {
@@ -170,7 +244,7 @@
       "currency": "Currency code",
       "taxRate": "Tax rate (%)",
       "primaryColor": "Primary color (hex)",
-      "logoUrl": "Logo URL",
+      "logo": "Store logo",
       "phoneCountryCode": "Phone country code",
       "phoneLocalDigits": "Local phone digits",
       "emailFrom": "Email sender (from)",
@@ -178,8 +252,7 @@
       "whatsappCountryCode": "WhatsApp country code",
       "whatsappNumber": "WhatsApp number",
       "instagramUrl": "Instagram URL",
-      "bankNameEs": "Bank name (ES)",
-      "bankNameEn": "Bank name (EN)",
+      "bankName": "Bank name",
       "accountName": "Account holder",
       "accountNumber": "Account number",
       "accountTypeEs": "Account type (ES)",

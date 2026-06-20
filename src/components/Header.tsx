@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import { storeConfig } from "@shared/store.config";
 import { getLocalized } from "@/lib/localized";
@@ -13,7 +14,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link to="/" className={styles.brand}>
+        <Link to={routes.demo} className={styles.brand}>
           <img
             src={storeConfig.logoUrl}
             alt={getLocalized(storeConfig.storeName, locale)}
@@ -29,8 +30,8 @@ export function Header() {
           </div>
         </Link>
         <nav className={styles.nav} aria-label="Main">
-          <Link to="/">{t("nav.store")}</Link>
-          <Link to="/checkout">{t("nav.checkout")}</Link>
+          <Link to={routes.demo}>{t("nav.store")}</Link>
+          <Link to={routes.demoCheckout}>{t("nav.checkout")}</Link>
           <Link to="/admin">{t("nav.admin")}</Link>
           <LocaleSwitcher />
         </nav>

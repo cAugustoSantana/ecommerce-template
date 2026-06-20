@@ -5,6 +5,7 @@ import { mockProducts } from "@/test/mockProducts";
 import type { Product } from "@shared/product.types";
 import { ProductCard } from "./ProductCard";
 import { renderWithProviders } from "@/test/render";
+import { routes } from "@shared/routes";
 
 describe("ProductCard", () => {
   it("renders product name and links to detail page", () => {
@@ -20,6 +21,6 @@ describe("ProductCard", () => {
     expect(screen.getByText(/1\.500|1,500/)).toBeInTheDocument();
 
     const link = screen.getByRole("link", { name: /Camiseta|Basic/i });
-    expect(link).toHaveAttribute("href", "/products/prod-1");
+    expect(link).toHaveAttribute("href", routes.demoProduct("prod-1"));
   });
 });

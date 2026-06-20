@@ -17,9 +17,83 @@
   },
   "footer": {
     "template": {
-      "title": "¿Quieres vender en línea como esta tienda?",
-      "subtitle": "Usa esta plantilla para lanzar tu catálogo, recibir pedidos y empezar a vender en minutos.",
+      "title": "¿Quieres tu propia tienda en línea?",
+      "subtitle": "Obtén una tienda profesional, gestión de pedidos y todo lo que necesitas — con una cuota mensual simple.",
       "cta": "Comienza a vender"
+    }
+  },
+  "landing": {
+    "hero": {
+      "badge": "Servicio de tienda online",
+      "title": "Tu tienda en línea, lista para vender — sin complicaciones",
+      "subtitle": "Te damos una tienda profesional, checkout y herramientas de pedidos para que te enfoques en tus productos y clientes. Regístrate, personaliza tu tienda y empieza a recibir pedidos.",
+      "ctaPrimary": "Abrir mi tienda",
+      "ctaSecondary": "Ver una tienda de ejemplo",
+      "highlight1": "En minutos, no en meses",
+      "highlight2": "Un plan mensual simple",
+      "highlight3": "Cancela cuando quieras"
+    },
+    "features": {
+      "title": "Todo lo que necesitas para vender en línea",
+      "subtitle": "Como Shopify, pero pensado para tiendas que cobran por transferencia — simple, claro y hecho para negocios pequeños.",
+      "catalog": {
+        "title": "Páginas de producto atractivas",
+        "desc": "Muestra tus productos con fotos, tallas y colores. Tus clientes compran desde cualquier celular."
+      },
+      "checkout": {
+        "title": "Checkout fácil",
+        "desc": "El cliente deja sus datos, hace el pedido y recibe confirmación — tú te enteras al instante."
+      },
+      "payments": {
+        "title": "Pagos por transferencia",
+        "desc": "Comparte tus datos bancarios en la página del pedido y confirma cuando llegue la transferencia."
+      },
+      "whatsapp": {
+        "title": "WhatsApp para comprobantes",
+        "desc": "Tus clientes pueden enviar el comprobante por WhatsApp con un toque — sin confusiones."
+      },
+      "admin": {
+        "title": "Gestiona pedidos en un solo lugar",
+        "desc": "Ve cada pedido, actualiza el estado, agrega productos y cambia la info de tu tienda desde un panel simple."
+      },
+      "i18n": {
+        "title": "Español e inglés",
+        "desc": "Atiende clientes en ambos idiomas con una tienda que cambia de idioma en un clic."
+      }
+    },
+    "pricing": {
+      "title": "Precio simple, sin sorpresas",
+      "subtitle": "Un solo plan con todo incluido. Sin costos de instalación ni cargos ocultos.",
+      "planName": "Plan tienda",
+      "price": "$29",
+      "perMonth": "/ mes",
+      "note": "Facturación mensual. Cancela cuando quieras.",
+      "include1": "Tu propia tienda en línea",
+      "include2": "Productos y pedidos sin límite",
+      "include3": "Panel de pedidos y notificaciones",
+      "include4": "Hosting y actualizaciones incluidos",
+      "cta": "Empezar prueba gratis"
+    },
+    "steps": {
+      "title": "En marcha en tres pasos",
+      "subtitle": "Sin desarrolladores ni configuraciones complicadas — solo regístrate y vende.",
+      "signup": {
+        "title": "Crea tu cuenta",
+        "desc": "Elige tu plan, ponle nombre a tu tienda y nosotros la preparamos para ti."
+      },
+      "customize": {
+        "title": "Hazla tuya",
+        "desc": "Agrega tu logo, productos, datos bancarios e info de contacto desde tu panel."
+      },
+      "sell": {
+        "title": "Comparte y vende",
+        "desc": "Envía el enlace de tu tienda a clientes y gestiona los pedidos cuando lleguen."
+      }
+    },
+    "closing": {
+      "title": "¿Listo para vender en línea?",
+      "subtitle": "Únete a negocios que venden con una tienda que se ve bien y funciona en cualquier celular — por una cuota mensual accesible.",
+      "cta": "Empezar hoy"
     }
   },
   "productDetail": {
@@ -170,7 +244,7 @@
       "currency": "Código de moneda",
       "taxRate": "Tasa de impuesto (%)",
       "primaryColor": "Color primario (hex)",
-      "logoUrl": "URL del logo",
+      "logo": "Logo de la tienda",
       "phoneCountryCode": "Código de país (teléfono)",
       "phoneLocalDigits": "Dígitos locales del teléfono",
       "emailFrom": "Remitente de email (from)",
@@ -178,8 +252,7 @@
       "whatsappCountryCode": "Código de país WhatsApp",
       "whatsappNumber": "Número WhatsApp",
       "instagramUrl": "URL de Instagram",
-      "bankNameEs": "Nombre del banco (ES)",
-      "bankNameEn": "Nombre del banco (EN)",
+      "bankName": "Nombre del banco",
       "accountName": "Titular de la cuenta",
       "accountNumber": "Número de cuenta",
       "accountTypeEs": "Tipo de cuenta (ES)",

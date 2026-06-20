@@ -4,7 +4,7 @@ export const ADMIN_TOKEN_KEY = "adminToken";
 export const statusColors: Record<string, string> = {
   payment_confirmation_pending: "#f59e0b",
   confirmed: "#10b981",
-  in_production: "#3b82f6",
+  in_production: "#164780",
   delivered: "#6b7280",
   cancelled: "#ef4444",
 };

@@ -32,7 +32,7 @@
 .proofBtn {
   background: none;
   border: none;
-  color: var(--color-primary, #2563eb);
+  color: var(--color-primary, #0f2d6b);
   cursor: pointer;
   font-size: 0.8125rem;
   padding: 0;
@@ -79,7 +79,7 @@
 }
 
 .viewLink {
-  color: var(--color-primary, #2563eb);
+  color: var(--color-primary, #0f2d6b);
   text-decoration: none;
   font-weight: 500;
 }

@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { ProductDetailPage } from "./ProductDetailPage";
 import { renderWithProviders } from "@/test/render";
 import { mockProductsFetch } from "@/test/mockProducts";
+import { routes } from "@shared/routes";
 
 describe("ProductDetailPage", () => {
   beforeEach(() => {
@@ -14,9 +15,9 @@ describe("ProductDetailPage", () => {
   it("loads product, adds to cart, and opens drawer", async () => {
     renderWithProviders(
       <Routes>
-        <Route path="/products/:productId" element={<ProductDetailPage />} />
+        <Route path={`${routes.demo}/products/:productId`} element={<ProductDetailPage />} />
       </Routes>,
-      { route: "/products/prod-1" },
+      { route: routes.demoProduct("prod-1") },
     );
 
     await waitFor(() => {
@@ -39,9 +40,9 @@ describe("ProductDetailPage", () => {
   it("shows not found for unknown product", async () => {
     renderWithProviders(
       <Routes>
-        <Route path="/products/:productId" element={<ProductDetailPage />} />
+        <Route path={`${routes.demo}/products/:productId`} element={<ProductDetailPage />} />
       </Routes>,
-      { route: "/products/unknown-id" },
+      { route: routes.demoProduct("unknown-id") },
     );
 
     await waitFor(() => {

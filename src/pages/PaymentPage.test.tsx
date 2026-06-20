@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { Routes, Route } from "react-router-dom";
 import { PaymentPage } from "./PaymentPage";
 import { renderWithProviders } from "@/test/render";
+import { routes } from "@shared/routes";
 import type { PublicOrder } from "@/types/commerce";
 
 vi.mock("@/lib/api", () => ({
@@ -62,9 +63,9 @@ describe("PaymentPage", () => {
   it("loads order and shows expanded bank and proof sections", async () => {
     renderWithProviders(
       <Routes>
-        <Route path="/order/payment/:displayId" element={<PaymentPage />} />
+        <Route path={`${routes.demo}/order/payment/:displayId`} element={<PaymentPage />} />
       </Routes>,
-      { route: "/order/payment/MITIENDA-12345" },
+      { route: routes.demoPayment("MITIENDA-12345") },
     );
 
     await waitFor(() => {
@@ -94,9 +95,9 @@ describe("PaymentPage", () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/order/payment/:displayId" element={<PaymentPage />} />
+        <Route path={`${routes.demo}/order/payment/:displayId`} element={<PaymentPage />} />
       </Routes>,
-      { route: "/order/payment/MITIENDA-12345" },
+      { route: routes.demoPayment("MITIENDA-12345") },
     );
 
     await waitFor(() => {
@@ -117,9 +118,9 @@ describe("PaymentPage", () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/order/payment/:displayId" element={<PaymentPage />} />
+        <Route path={`${routes.demo}/order/payment/:displayId`} element={<PaymentPage />} />
       </Routes>,
-      { route: "/order/payment/MITIENDA-12345" },
+      { route: routes.demoPayment("MITIENDA-12345") },
     );
 
     await waitFor(() => {
@@ -132,9 +133,9 @@ describe("PaymentPage", () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/order/payment/:displayId" element={<PaymentPage />} />
+        <Route path={`${routes.demo}/order/payment/:displayId`} element={<PaymentPage />} />
       </Routes>,
-      { route: "/order/payment/MITIENDA-12345" },
+      { route: routes.demoPayment("MITIENDA-12345") },
     );
 
     await waitFor(() => {

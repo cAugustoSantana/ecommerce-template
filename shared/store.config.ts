@@ -17,7 +17,7 @@ export const storeConfig = {
   supportedLocales: ["es", "en"] as const,
   currency: "DOP",
   taxRate: 0.18,
-  primaryColor: "#2563eb",
+  primaryColor: "#0F2D6B",
   logoUrl: "/logo.svg",
   phone: { defaultCountryCode: "1", localDigits: 10 },
   email: { from: "Pedidos Mi Tienda <pedidos@mitienda.com>" },
@@ -30,7 +30,7 @@ export const storeConfig = {
   payment: {
     provider: "bank_transfer_proof" as PaymentProvider,
     bankTransfer: {
-      bankName: { es: "Banco Popular", en: "Banco Popular" },
+      bankName: "Banco Popular",
       accountName: "Mi Tienda SRL",
       accountNumber: "1234567890",
       accountType: { es: "Ahorros", en: "Savings" },

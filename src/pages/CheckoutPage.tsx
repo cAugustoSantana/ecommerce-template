@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import { useProducts } from "@/context/ProductsContext";
 import { useState, type FormEvent } from "react";
@@ -98,7 +99,7 @@ export function CheckoutPage() {
       const result = (await postCheckout(body)) as CheckoutResponse;
       setActiveOrder(result.displayId);
       clearCart();
-      navigate(`/order/payment/${result.displayId}`);
+      navigate(routes.demoPayment(result.displayId));
     } catch (err) {
       const message = err instanceof Error ? err.message : "error";
       if (message === "rate_limit") {
@@ -113,7 +114,7 @@ export function CheckoutPage() {
 
   if (lines.length === 0) {
     return (
-      <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+      <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-vya-text antialiased selection:bg-brand-100 selection:text-brand-900">
         <StorefrontHeader />
 
         <main className="mx-auto flex flex-1 flex-col justify-center px-4 py-6 lg:px-8">
@@ -125,8 +126,8 @@ export function CheckoutPage() {
           </p>
           <div className="mt-5">
             <Link
-              to="/"
-              className="inline-flex rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-700"
+              to={routes.demo}
+              className="inline-flex rounded-xl btn-cta px-5 py-2.5 text-sm"
             >
               {t("common.continueShopping")}
             </Link>
@@ -138,13 +139,13 @@ export function CheckoutPage() {
   }
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-vya-text antialiased selection:bg-brand-100 selection:text-brand-900">
       <StorefrontHeader />
 
       <main className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col overflow-y-auto px-4 py-3 lg:overflow-hidden lg:px-8 lg:py-3">
         <div className="mb-3 shrink-0 lg:mb-2">
           <Link
-            to="/"
+            to={routes.demo}
             className="mb-1.5 inline-flex items-center gap-2 text-xs font-bold text-brand-600 hover:underline lg:mb-1"
           >
             <span aria-hidden>←</span>
@@ -276,7 +277,7 @@ export function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="mt-1 inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-brand-600 px-4 py-3.5 font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:bg-brand-700 active:scale-[0.98] disabled:opacity-60 lg:col-span-2"
+                  className="mt-1 inline-flex w-full items-center justify-center gap-3 rounded-2xl btn-cta px-4 py-3.5 lg:col-span-2"
                 >
                   {t("checkout.submit")}
                 </button>

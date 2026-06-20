@@ -11,6 +11,7 @@ import { rateLimit, rateLimitKey } from "./lib/rateLimit.js";
 import { validateCheckout, type CheckoutInput } from "./lib/validate.js";
 import { createOrder } from "./lib/orders.js";
 import { sendCheckoutEmails } from "./lib/email.js";
+import { routes } from "../shared/routes.js";
 
 function mapValidationError(err: unknown): { status: number; error: string } {
   const message = err instanceof Error ? err.message : "invalid_request";
@@ -64,7 +65,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     const origin = getSiteOrigin(req);
-    const paymentPageUrl = `${origin}/order/payment/${order.display_id}`;
+    const paymentPageUrl = `${origin}${routes.demoPayment(order.display_id)}`;
 
     await sendCheckoutEmails({ order, items, paymentPageUrl });
 

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import type { Locale } from "@shared/types";
 import { useCart } from "@/context/CartContext";
@@ -82,7 +83,7 @@ export function OrderCart({ locale }: Props) {
       </div>
 
       <Link
-        to="/checkout"
+        to={routes.demoCheckout}
         className={lines.length === 0 ? styles.checkoutLinkDisabled : styles.checkoutLink}
       >
         {t("cart.checkout")}

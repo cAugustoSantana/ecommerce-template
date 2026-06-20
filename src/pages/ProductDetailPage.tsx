@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { routes } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
@@ -100,7 +101,7 @@ export function ProductDetailPage() {
         <main className="mx-auto flex flex-1 flex-col items-center justify-center px-4 py-8 text-center lg:px-8">
           <p className="text-gray-500">{t("productDetail.notFound")}</p>
           <Link
-            to="/"
+            to={routes.demo}
             className="mt-6 inline-flex items-center gap-2 font-semibold text-brand-600 hover:underline"
           >
             <ArrowLeft size={18} weight="bold" aria-hidden />
@@ -128,7 +129,7 @@ export function ProductDetailPage() {
   const incrementQty = () => setQuantity((q) => Math.min(99, q + 1));
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-vya-text antialiased selection:bg-brand-100 selection:text-brand-900">
       <StorefrontHeader />
 
       <main
@@ -138,7 +139,7 @@ export function ProductDetailPage() {
       >
         <div className="mb-3 shrink-0 lg:mb-2">
           <Link
-            to="/"
+            to={routes.demo}
             className="group inline-flex items-center gap-2 font-semibold text-gray-500 transition-colors hover:text-brand-600"
           >
             <ArrowLeft
@@ -406,7 +407,7 @@ export function ProductDetailPage() {
                     type="button"
                     disabled={!allSelected}
                     onClick={handleAdd}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-500/30 transition-all hover:bg-brand-700 active:scale-[0.98] disabled:opacity-60 lg:py-3"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl btn-cta px-4 py-3.5 text-sm lg:py-3"
                   >
                     <ShoppingCart size={20} weight="bold" aria-hidden />
                     {t("storefront.addToOrder")}

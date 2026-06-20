@@ -15,7 +15,7 @@ export function StorefrontPage() {
   const { isDrawerOpen } = useCart();
 
   return (
-    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
+    <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-vya-text antialiased selection:bg-brand-100 selection:text-brand-900">
       <StorefrontHeader />
       <PendingOrderBanner />
 
