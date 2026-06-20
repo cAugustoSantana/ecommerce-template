@@ -5,6 +5,7 @@ import { ProductsProvider } from "@/context/ProductsContext";
 import { CartProvider } from "@/context/CartContext";
 import { StorefrontPage } from "@/pages/StorefrontPage";
 import { CheckoutPage } from "@/pages/CheckoutPage";
+import { ProductDetailPage } from "@/pages/ProductDetailPage";
 import { PaymentPage } from "@/pages/PaymentPage";
 import {
   AdminLayout,
@@ -21,16 +22,23 @@ function AppRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
   const isCheckoutRoute = location.pathname === "/checkout";
+  const isPaymentRoute = location.pathname.startsWith("/order/payment");
+  const isStorefrontRoute =
+    location.pathname === "/" || location.pathname.startsWith("/products/");
 
   return (
     <div
       className={styles.app}
       style={{ ["--color-primary" as string]: storeConfig.primaryColor }}
     >
-      {!isAdminRoute && !isCheckoutRoute && <Header />}
+      {!isAdminRoute &&
+        !isCheckoutRoute &&
+        !isPaymentRoute &&
+        !isStorefrontRoute && <Header />}
       <main className={styles.main}>
         <Routes>
           <Route path="/" element={<StorefrontPage />} />
+          <Route path="/products/:productId" element={<ProductDetailPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order/payment/:displayId" element={<PaymentPage />} />
           <Route path="/admin" element={<AdminLayout />}>

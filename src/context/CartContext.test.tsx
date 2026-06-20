@@ -17,7 +17,7 @@ function wrapper({ children }: { children: React.ReactNode }) {
 }
 
 describe("CartContext", () => {
-  it("adds lines and computes total", async () => {
+  it("adds lines and opens drawer", async () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     await waitFor(() => expect(result.current.total).toBe(0));
     act(() => {
@@ -29,6 +29,7 @@ describe("CartContext", () => {
     });
     expect(result.current.lines).toHaveLength(1);
     expect(result.current.total).toBe(3000);
+    expect(result.current.isDrawerOpen).toBe(true);
   });
 
   it("merges duplicate variant lines", async () => {

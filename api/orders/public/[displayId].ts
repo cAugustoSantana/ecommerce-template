@@ -35,6 +35,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     buyerName: order.buyer_name,
     paymentProofMethod: order.payment_proof_method,
     hasProof: Boolean(order.payment_proof_url),
+    shipping: {
+      address: order.shipping_address,
+      city: order.shipping_city,
+      postalCode: order.shipping_postal_code,
+    },
     items: order.items.map((item) => ({
       productId: item.product_id,
       productName: item.product_name,

@@ -16,6 +16,7 @@ export const storeConfig = {
   defaultLocale: "es" as Locale,
   supportedLocales: ["es", "en"] as const,
   currency: "DOP",
+  taxRate: 0.18,
   primaryColor: "#2563eb",
   logoUrl: "/logo.svg",
   phone: { defaultCountryCode: "1", localDigits: 10 },

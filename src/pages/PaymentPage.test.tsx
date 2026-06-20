@@ -19,6 +19,11 @@ const mockOrder: PublicOrder = {
   buyerName: "Ana Test",
   paymentProofMethod: null,
   hasProof: false,
+  shipping: {
+    address: "Calle Central #123",
+    city: "Santo Domingo",
+    postalCode: "10101",
+  },
   items: [
     {
       productId: "prod-1",
@@ -59,8 +64,10 @@ describe("PaymentPage", () => {
       expect(screen.getByText(/MITIENDA-12345/)).toBeInTheDocument();
     });
 
+    expect(screen.getByText(/Pedido confirmado|Order Confirmed/i)).toBeInTheDocument();
     expect(screen.getByText("1234567890")).toBeInTheDocument();
     expect(screen.getByText(/Camiseta/)).toBeInTheDocument();
+    expect(screen.getByText(/Calle Central/)).toBeInTheDocument();
     expect(screen.getAllByText(/DOP.?1,500|1\.500/).length).toBeGreaterThan(0);
     expect(fetchPublicOrder).toHaveBeenCalledWith("MITIENDA-12345");
     expect(localStorage.getItem("activeOrderDisplayId")).toBe("MITIENDA-12345");

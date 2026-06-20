@@ -1,13 +1,17 @@
 import { test, expect, gotoStorefront, addDefaultProductToCart } from "./fixtures";
 
-test("storefront shows products and cart sidebar", async ({ page }) => {
+test("storefront shows product cards", async ({ page }) => {
   await gotoStorefront(page);
   await expect(page.getByText(/Gorra|Logo Cap/)).toBeVisible();
-  await expect(page.getByRole("complementary", { name: /pedido|order/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Catálogo|Catalog/ })).toBeVisible();
 });
 
-test("add to cart updates total", async ({ page }) => {
+test("add to cart opens drawer with total", async ({ page }) => {
   await addDefaultProductToCart(page);
-  await expect(page.getByRole("complementary")).toContainText(/1\.500|1,500/);
-  await expect(page.getByRole("link", { name: /Ir al checkout|Go to checkout/i })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: /Tu pedido|Your order/i })).toContainText(
+    /1\.500|1,500/,
+  );
+  await expect(
+    page.getByRole("link", { name: /Ir al checkout|Proceed to checkout/i }),
+  ).toBeVisible();
 });

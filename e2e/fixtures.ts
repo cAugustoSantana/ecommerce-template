@@ -9,8 +9,20 @@ export async function gotoStorefront(page: Page) {
   await page.goto("/", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: /Catálogo|Catalog/ })).toBeVisible();
   await expect(
-    page.getByRole("button", { name: /Agregar al pedido|Add to order/i }).first(),
+    page.getByRole("link", { name: /Camiseta|Basic T-shirt|Gorra|Logo Cap|Ver producto|View product/i }).first(),
   ).toBeVisible({ timeout: 15_000 });
+}
+
+export async function openDefaultProduct(page: Page) {
+  await gotoStorefront(page);
+  await page
+    .getByRole("link", { name: /Camiseta|Basic T-shirt/i })
+    .first()
+    .click();
+  await page.waitForURL(/\/products\//);
+  await expect(
+    page.getByRole("button", { name: /Agregar al pedido|Add to order/i }),
+  ).toBeVisible();
 }
 
 export async function switchLocale(page: Page, locale: "EN" | "ES") {
@@ -18,8 +30,15 @@ export async function switchLocale(page: Page, locale: "EN" | "ES") {
 }
 
 export async function addDefaultProductToCart(page: Page) {
-  await gotoStorefront(page);
-  await page.getByRole("button", { name: /Agregar al pedido|Add to order/i }).first().click();
+  await openDefaultProduct(page);
+  await page.getByRole("button", { name: /Agregar al pedido|Add to order/i }).click();
+  await expect(page.getByRole("dialog", { name: /Tu pedido|Your order/i })).toBeVisible();
+}
+
+export async function goToCheckoutFromDrawer(page: Page) {
+  await page
+    .getByRole("link", { name: /Ir al checkout|Proceed to checkout/i })
+    .click();
 }
 
 export async function fillCheckoutForm(
@@ -43,7 +62,7 @@ export async function fillCheckoutForm(
 
 export async function completeCheckout(page: Page): Promise<string> {
   await addDefaultProductToCart(page);
-  await page.getByRole("link", { name: /Ir al checkout|Go to checkout/i }).click();
+  await goToCheckoutFromDrawer(page);
   await fillCheckoutForm(page);
   await page.getByRole("button", { name: /Finalizar pedido|Place order/i }).click();
   await page.waitForURL(/\/order\/payment\/MITIENDA-[a-f0-9]+/i);

@@ -14,6 +14,7 @@ type Props = {
   locale: "es" | "en";
   disabled?: boolean;
   onSent?: () => void;
+  buttonClassName?: string;
 };
 
 export function WhatsAppProofButton({
@@ -23,6 +24,7 @@ export function WhatsAppProofButton({
   locale,
   disabled,
   onSent,
+  buttonClassName,
 }: Props) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
@@ -57,7 +59,7 @@ export function WhatsAppProofButton({
   return (
     <button
       type="button"
-      className={shared.buttonSecondary}
+      className={buttonClassName ?? shared.buttonSecondary}
       disabled={disabled || loading}
       onClick={() => void handleClick()}
     >

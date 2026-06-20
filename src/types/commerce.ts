@@ -29,6 +29,7 @@ export type PublicOrder = {
   buyerName: string;
   paymentProofMethod: string | null;
   hasProof: boolean;
+  shipping: { address: string; city: string; postalCode: string };
   items: {
     productId: string;
     productName: string;
