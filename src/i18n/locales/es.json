@@ -80,6 +80,7 @@
     "deliveryMethod": "Método de entrega",
     "deliveryMethodValue": "Express estándar (2–3 días hábiles)",
     "infoCallout": "Hemos enviado un correo de confirmación a tu dirección. Guarda este enlace para subir tu comprobante de pago o revisar el estado del pedido.",
+    "infoTitle": "Información útil",
     "timeline": {
       "orderConfirmed": "Pedido confirmado",
       "outForDelivery": "En camino",

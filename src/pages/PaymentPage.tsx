@@ -9,12 +9,14 @@ import {
   Package,
   Printer,
   TShirt,
+  Truck,
 } from "@phosphor-icons/react";
 import { fetchPublicOrder } from "@/lib/api";
 import { useActiveOrder } from "@/hooks/useActiveOrder";
 import { ProofUpload } from "@/components/ProofUpload";
 import { WhatsAppProofButton } from "@/components/WhatsAppProofButton";
 import { OrderDeliveryTimeline } from "@/components/OrderDeliveryTimeline";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { StorefrontFooter } from "@/components/StorefrontFooter";
 import { formatMoney } from "@/lib/format";
 import type { PublicOrder } from "@/types/commerce";
@@ -105,18 +107,18 @@ export function PaymentPage() {
 
   return (
     <div className="flex h-[100dvh] flex-col overflow-hidden bg-gray-50/50 font-sans text-gray-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-      <main className="mx-auto w-full max-w-[1000px] flex-1 overflow-y-auto px-4 py-6 lg:px-8 lg:py-8">
-        <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <main className="mx-auto w-full max-w-[1440px] flex-1 overflow-y-auto px-4 py-5 lg:px-8 lg:py-6">
+        <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <div className="mb-3 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
-                <Check size={24} weight="bold" aria-hidden />
+            <div className="mb-2 flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-100 text-green-600">
+                <Check size={22} weight="bold" aria-hidden />
               </div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 lg:text-4xl">
+              <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 lg:text-3xl">
                 {t("payment.confirmedTitle")}
               </h1>
             </div>
-            <p className="text-base text-gray-500 lg:text-lg">
+            <p className="text-sm text-gray-500 lg:text-base">
               {t("payment.confirmedOn", {
                 displayId: order.displayId,
                 date: confirmedDate,
@@ -126,23 +128,25 @@ export function PaymentPage() {
 
           <Link
             to="/"
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 print:hidden"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 print:hidden"
           >
-            <ArrowLeft size={18} weight="bold" aria-hidden />
+            <ArrowLeft size={16} weight="bold" aria-hidden />
             {t("payment.returnToShop")}
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="space-y-8 lg:col-span-2">
-            <OrderDeliveryTimeline order={order} locale={locale} />
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-12 xl:gap-6">
+          <div className="space-y-4 xl:col-span-7">
+            <CollapsibleCard
+              title={t("payment.deliveryStatus")}
+              icon={<Truck size={20} weight="fill" className="text-brand-600" aria-hidden />}
+              defaultOpen={false}
+            >
+              <OrderDeliveryTimeline order={order} locale={locale} />
+            </CollapsibleCard>
 
-            <section className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <div className="border-b border-gray-100 p-6 lg:p-8">
-                <h2 className="text-lg font-bold text-gray-900">{t("payment.orderSummary")}</h2>
-              </div>
-
-              <div className="divide-y divide-gray-100">
+            <CollapsibleCard title={t("payment.orderSummary")} defaultOpen={false}>
+              <div className="divide-y divide-gray-100 rounded-xl border border-gray-100">
                 {order.items.map((item, index) => {
                   const Icon = index % 2 === 0 ? TShirt : Package;
                   const shortName = item.productName.slice(0, 8).toUpperCase();
@@ -150,11 +154,11 @@ export function PaymentPage() {
                   return (
                     <div
                       key={`${item.productId}-${index}`}
-                      className="flex items-center gap-6 p-6 lg:p-8"
+                      className="flex items-center gap-4 p-4 lg:p-5"
                     >
-                      <div className="relative flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-brand-50">
+                      <div className="relative flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl bg-brand-50 lg:h-20 lg:w-20">
                         <Icon
-                          size={40}
+                          size={32}
                           weight="fill"
                           className="absolute text-brand-500/20"
                           aria-hidden
@@ -164,7 +168,7 @@ export function PaymentPage() {
                         </span>
                       </div>
                       <div className="min-w-0 flex-grow">
-                        <h3 className="text-lg font-bold text-gray-900">{item.productName}</h3>
+                        <h3 className="font-bold text-gray-900">{item.productName}</h3>
                         <p className="text-sm text-gray-500">
                           {formatVariantSummary(
                             item.variants,
@@ -183,30 +187,28 @@ export function PaymentPage() {
                 })}
               </div>
 
-              <div className="space-y-3 bg-gray-50/50 p-6 lg:p-8">
-                <div className="flex justify-between font-medium text-gray-600">
+              <div className="mt-4 space-y-2 rounded-xl bg-gray-50/80 p-4 lg:p-5">
+                <div className="flex justify-between text-sm font-medium text-gray-600">
                   <span>{t("payment.subtotal")}</span>
                   <span>{formatMoney(subtotal, locale)}</span>
                 </div>
-                <div className="flex justify-between font-medium text-gray-600">
+                <div className="flex justify-between text-sm font-medium text-gray-600">
                   <span>{t("payment.shipping")}</span>
                   <span className="font-semibold text-green-600">
                     {t("payment.shippingFree")}
                   </span>
                 </div>
-                <div className="flex justify-between border-t border-gray-200 pt-3 text-xl font-extrabold text-gray-900">
+                <div className="flex justify-between border-t border-gray-200 pt-2 text-lg font-extrabold text-gray-900">
                   <span>{t("payment.totalAmount")}</span>
                   <span>{formatMoney(order.total, locale)}</span>
                 </div>
               </div>
-            </section>
+            </CollapsibleCard>
           </div>
 
-          <div className="space-y-8">
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:p-8">
-              <h2 className="mb-6 text-lg font-bold text-gray-900">{t("payment.shippingInfo")}</h2>
-
-              <div className="space-y-6">
+          <div className="space-y-4 xl:col-span-5">
+            <CollapsibleCard title={t("payment.shippingInfo")} defaultOpen={false}>
+              <div className="space-y-5">
                 <div>
                   <p className="mb-1 text-xs font-bold uppercase tracking-wider text-gray-400">
                     {t("payment.contactEmail")}
@@ -234,13 +236,14 @@ export function PaymentPage() {
                   <p className="font-medium text-gray-900">{t("payment.deliveryMethodValue")}</p>
                 </div>
               </div>
-            </section>
+            </CollapsibleCard>
 
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:p-8 print:hidden">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
-                <Bank size={20} weight="bold" className="text-blue-600" aria-hidden />
-                {t("payment.bankDetails")}
-              </h2>
+            <CollapsibleCard
+              title={t("payment.bankDetails")}
+              icon={<Bank size={20} weight="bold" className="text-blue-600" aria-hidden />}
+              defaultOpen
+              printHidden
+            >
               <dl className="space-y-2 text-sm">
                 <div className="flex justify-between gap-4">
                   <dt className="font-medium text-gray-500">{t("payment.bankName")}</dt>
@@ -268,11 +271,11 @@ export function PaymentPage() {
                 </div>
               </dl>
               <p className="mt-3 text-xs text-gray-400">{t("payment.leaveHint")}</p>
-            </section>
+            </CollapsibleCard>
 
             {proofSubmitted ? (
               <div
-                className="rounded-2xl border border-green-200 bg-green-50 px-6 py-4 text-center text-sm font-semibold text-green-800 print:hidden"
+                className="rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-center text-sm font-semibold text-green-800 print:hidden"
                 role="status"
               >
                 {order.paymentProofMethod === "whatsapp"
@@ -280,17 +283,13 @@ export function PaymentPage() {
                   : t("payment.proofUploaded")}
               </div>
             ) : (
-              <section
-                className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm print:hidden"
-                aria-labelledby="proof-heading"
+              <CollapsibleCard
+                title={t("payment.uploadProof")}
+                defaultOpen
+                printHidden
               >
-                <div className="border-b border-gray-100 bg-gray-50/30 p-6">
-                  <h2 id="proof-heading" className="text-lg font-bold text-gray-900">
-                    {t("payment.uploadProof")}
-                  </h2>
-                  <p className="mt-1 text-sm text-gray-500">{t("payment.nextStepHint")}</p>
-                </div>
-                <div className="space-y-4 p-6">
+                <p className="mb-4 text-sm text-gray-500">{t("payment.nextStepHint")}</p>
+                <div className="space-y-4">
                   <ProofUpload
                     displayId={order.displayId}
                     disabled={!canUpload}
@@ -306,22 +305,24 @@ export function PaymentPage() {
                     buttonClassName="inline-flex w-full items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-3 font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-60"
                   />
                 </div>
-              </section>
+              </CollapsibleCard>
             )}
 
-            <div className="flex items-start gap-4 rounded-2xl border border-brand-100 bg-brand-50 p-6 print:hidden">
-              <Info size={20} weight="bold" className="mt-0.5 shrink-0 text-brand-600" aria-hidden />
-              <p className="text-sm font-medium leading-relaxed text-brand-900/80">
-                {t("payment.infoCallout")}
-              </p>
-            </div>
+            <CollapsibleCard title={t("payment.infoTitle")} defaultOpen={false} printHidden>
+              <div className="flex items-start gap-3">
+                <Info size={18} weight="bold" className="mt-0.5 shrink-0 text-brand-600" aria-hidden />
+                <p className="text-sm font-medium leading-relaxed text-gray-600">
+                  {t("payment.infoCallout")}
+                </p>
+              </div>
+            </CollapsibleCard>
 
             <button
               type="button"
               onClick={() => window.print()}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 print:hidden"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition-all hover:bg-gray-50 print:hidden"
             >
-              <Printer size={18} weight="bold" aria-hidden />
+              <Printer size={16} weight="bold" aria-hidden />
               {t("payment.printReceipt")}
             </button>
           </div>
