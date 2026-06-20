@@ -18,10 +18,16 @@ import { handleOrderPublic } from "./handlers/orderPublic.js";
 import { handleOrderProof } from "./handlers/orderProof.js";
 import { handleOrderProofMethod } from "./handlers/orderProofMethod.js";
 
-function slugParts(query: VercelRequest["query"]): string[] {
-  const raw = query.slug;
-  if (raw == null) return [];
-  return Array.isArray(raw) ? raw.map(String) : [String(raw)];
+function slugParts(req: VercelRequest): string[] {
+  const raw = req.query.slug;
+  if (raw != null) {
+    return Array.isArray(raw) ? raw.map(String) : [String(raw)];
+  }
+
+  const url = req.url ?? "";
+  const match = url.match(/^\/api\/?(.*)$/);
+  if (!match?.[1]) return [];
+  return match[1].split("/").filter(Boolean);
 }
 
 function setQueryParam(req: VercelRequest, key: string, value: string) {
@@ -29,7 +35,7 @@ function setQueryParam(req: VercelRequest, key: string, value: string) {
 }
 
 export async function dispatchApi(req: VercelRequest, res: VercelResponse) {
-  const slug = slugParts(req.query);
+  const slug = slugParts(req);
 
   if (slug.length === 1 && slug[0] === "health") return handleHealth(req, res);
   if (slug.length === 1 && slug[0] === "checkout") return handleCheckout(req, res);
