@@ -3,7 +3,7 @@
  */
 import { describe, it, expect } from "vitest";
 import { validateCheckout } from "./validate.js";
-import type { Product } from "../../shared/product.types.js";
+import type { Product } from "../shared/product.types.js";
 
 const mockProduct: Product = {
   id: "prod-1",

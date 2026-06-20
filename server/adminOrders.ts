@@ -1,4 +1,4 @@
-import type { OrderWithItems } from "../../shared/db.types.js";
+import type { OrderWithItems } from "../shared/db.types.js";
 import { buildOrderTimeline } from "./orderTimeline.js";
 import { getProductImageUrl } from "./products.js";
 export type AdminOrderListItem = {

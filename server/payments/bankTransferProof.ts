@@ -1,4 +1,4 @@
-import type { Locale } from "../../../shared/types.js";
+import type { Locale } from "../../shared/types.js";
 import { getStoreConfig } from "../storeSettings.js";
 import { getBankTransferDetails } from "../email.js";
 

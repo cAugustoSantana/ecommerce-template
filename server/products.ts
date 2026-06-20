@@ -1,5 +1,5 @@
-import type { ProductRow } from "../../shared/db.types.js";
-import type { Product, VariantGroup } from "../../shared/product.types.js";
+import type { ProductRow } from "../shared/db.types.js";
+import type { Product, VariantGroup } from "../shared/product.types.js";
 import { getSql } from "./db.js";
 
 function parseJsonField<T>(value: T | string): T {

@@ -1,4 +1,4 @@
-import type { OrderWithItems } from "../../shared/db.types.js";
+import type { OrderWithItems } from "../shared/db.types.js";
 
 export type OrderTimelineEventType =
   | "order_placed"

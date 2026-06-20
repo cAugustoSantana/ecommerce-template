@@ -3,7 +3,7 @@
  */
 import { describe, it, expect } from "vitest";
 import { rowToProduct } from "./products.js";
-import type { ProductRow } from "../../shared/db.types.js";
+import type { ProductRow } from "../shared/db.types.js";
 
 const sampleRow: ProductRow = {
   id: "prod-1",

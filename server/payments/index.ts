@@ -1,4 +1,4 @@
-import type { Locale } from "../../../shared/types.js";
+import type { Locale } from "../../shared/types.js";
 import { getPaymentInstructions } from "./bankTransferProof.js";
 
 export { getPaymentInstructions, assertPaymentProviderConfigured } from "./bankTransferProof.js";

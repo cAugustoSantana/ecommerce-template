@@ -1,8 +1,8 @@
 import { Resend } from "resend";
-import type { Locale } from "../../shared/types.js";
-import type { StoreSettingsData } from "../../shared/storeSettings.types.js";
+import type { Locale } from "../shared/types.js";
+import type { StoreSettingsData } from "../shared/storeSettings.types.js";
 import { getStoreConfig, localizedField } from "./storeSettings.js";
-import type { OrderItemRow, OrderRow } from "../../shared/db.types.js";
+import type { OrderItemRow, OrderRow } from "../shared/db.types.js";
 
 function getResend() {
   const key = process.env.RESEND_API_KEY;

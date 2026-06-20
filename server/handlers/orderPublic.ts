@@ -3,7 +3,7 @@ import { hasDatabase } from "../db.js";
 import { getOrderByDisplayId } from "../orders.js";
 import { getPaymentInstructions } from "../payments/index.js";
 import { json, methodNotAllowed } from "../http.js";
-import type { Locale } from "../../../shared/types.js";
+import type { Locale } from "../../shared/types.js";
 
 export async function handleOrderPublic(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

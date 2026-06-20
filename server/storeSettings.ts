@@ -1,9 +1,9 @@
-import { storeConfig } from "../../shared/store.config.js";
+import { storeConfig } from "../shared/store.config.js";
 import type {
   PublicStoreSettings,
   StoreSettingsData,
-} from "../../shared/storeSettings.types.js";
-import type { Locale } from "../../shared/types.js";
+} from "../shared/storeSettings.types.js";
+import type { Locale } from "../shared/types.js";
 import { getSql } from "./db.js";
 
 export type StoreSettingsRow = {

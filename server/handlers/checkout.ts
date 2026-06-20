@@ -11,7 +11,7 @@ import { rateLimit, rateLimitKey } from "../rateLimit.js";
 import { validateCheckout, type CheckoutInput } from "../validate.js";
 import { createOrder } from "../orders.js";
 import { sendCheckoutEmails } from "../email.js";
-import { routes } from "../../../shared/routes.js";
+import { routes } from "../../shared/routes.js";
 
 function mapValidationError(err: unknown): { status: number; error: string } {
   const message = err instanceof Error ? err.message : "invalid_request";

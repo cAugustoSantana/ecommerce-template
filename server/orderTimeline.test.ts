@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildOrderTimeline } from "./orderTimeline.js";
-import type { OrderWithItems } from "../../shared/db.types.js";
+import type { OrderWithItems } from "../shared/db.types.js";
 
 function makeOrder(overrides: Partial<OrderWithItems> = {}): OrderWithItems {
   return {
