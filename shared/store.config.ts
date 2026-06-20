@@ -1,22 +1,10 @@
 import type { Locale, OrderStatus, PaymentProvider } from "./types";
-
-export type LocalizedField = Record<Locale, string>;
-
-export type VariantValue = Record<Locale, string>;
-
-export type VariantGroup = {
-  label: LocalizedField;
-  values: Record<string, VariantValue>;
-};
-
-export type Product = {
-  id: string;
-  name: LocalizedField;
-  description: LocalizedField;
-  price: number;
-  imageUrl: string;
-  variantOptions: Record<string, VariantGroup>;
-};
+export type {
+  Product,
+  LocalizedField,
+  VariantGroup,
+  VariantValue,
+} from "./product.types";
 
 export const storeConfig = {
   storeSlug: "MITIENDA",
@@ -59,55 +47,6 @@ export const storeConfig = {
     "cancelled",
   ] as const satisfies readonly OrderStatus[],
   defaultOrderStatus: "payment_confirmation_pending" as OrderStatus,
-  products: [
-    {
-      id: "prod-1",
-      name: { es: "Camiseta Básica", en: "Basic T-shirt" },
-      description: {
-        es: "Algodón suave, corte regular",
-        en: "Soft cotton, regular fit",
-      },
-      price: 1500,
-      imageUrl: "/products/prod-1.svg",
-      variantOptions: {
-        size: {
-          label: { es: "Talla", en: "Size" },
-          values: {
-            s: { es: "S", en: "S" },
-            m: { es: "M", en: "M" },
-            l: { es: "L", en: "L" },
-            xl: { es: "XL", en: "XL" },
-          },
-        },
-        color: {
-          label: { es: "Color", en: "Color" },
-          values: {
-            black: { es: "Negro", en: "Black" },
-            white: { es: "Blanco", en: "White" },
-          },
-        },
-      },
-    },
-    {
-      id: "prod-2",
-      name: { es: "Gorra Logo", en: "Logo Cap" },
-      description: {
-        es: "Gorra ajustable con logo bordado",
-        en: "Adjustable cap with embroidered logo",
-      },
-      price: 900,
-      imageUrl: "/products/prod-2.svg",
-      variantOptions: {
-        color: {
-          label: { es: "Color", en: "Color" },
-          values: {
-            navy: { es: "Azul marino", en: "Navy" },
-            black: { es: "Negro", en: "Black" },
-          },
-        },
-      },
-    },
-  ] satisfies Product[],
 };
 
 export type StoreConfig = typeof storeConfig;

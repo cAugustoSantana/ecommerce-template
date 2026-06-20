@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { storeConfig } from "@shared/store.config";
+import { useProducts } from "@/context/ProductsContext";
 import type { CartLine } from "@/types/commerce";
 
 type CartContextValue = {
@@ -18,6 +18,7 @@ function lineKey(productId: string, variants: Record<string, string>) {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
+  const { getProduct } = useProducts();
 
   const addLine = (line: Omit<CartLine, "lineId">) => {
     setLines((prev) => {
@@ -47,10 +48,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const total = useMemo(() => {
     return lines.reduce((sum, line) => {
-      const product = storeConfig.products.find((p) => p.id === line.productId);
+      const product = getProduct(line.productId);
       return sum + (product?.price ?? 0) * line.quantity;
     }, 0);
-  }, [lines]);
+  }, [lines, getProduct]);
 
   const value = useMemo(
     () => ({ lines, addLine, removeLine, clearCart, total }),

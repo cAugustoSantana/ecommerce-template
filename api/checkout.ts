@@ -51,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const body = readJsonBody<CheckoutInput>(req);
-    const validated = validateCheckout(body);
+    const validated = await validateCheckout(body);
     const { order, items } = await createOrder({
       buyer: validated.buyer,
       locale: validated.locale,

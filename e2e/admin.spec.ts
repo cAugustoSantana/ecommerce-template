@@ -24,6 +24,7 @@ test("admin rejects wrong password", async ({ page }) => {
 
 test("admin login shows orders table", async ({ page }) => {
   await loginAdmin(page);
+  await expect(page).toHaveURL(/\/admin\/orders$/);
   await expect(page.locator("table")).toBeVisible();
 });
 
@@ -34,20 +35,21 @@ test("checkout order appears in admin with pending status", async ({ page }) => 
   await expect(page.getByText(/Confirmación de pago pendiente|Payment confirmation pending/i)).toBeVisible();
 });
 
-test("admin confirms payment and persists status", async ({ page }) => {
+test("admin confirms payment on detail page and persists status", async ({ page }) => {
   const displayId = await completeCheckout(page);
 
   await loginAdmin(page);
-  const row = page.locator("tr", { hasText: displayId });
-  await row.getByRole("button", { name: /Confirmar pago|Confirm payment/i }).click();
-  await expect(row.getByText(/Confirmado|Confirmed/i)).toBeVisible();
+  await page.getByRole("link", { name: /Ver|View/i }).first().click();
+  await expect(page).toHaveURL(new RegExp(`/admin/orders/${displayId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`));
+
+  await page.getByRole("button", { name: /Confirmar pago|Confirm payment/i }).first().click();
+  await expect(page.getByText(/Confirmado|Confirmed/i).first()).toBeVisible();
 
   await page.reload();
-  await expect(page.getByText(displayId)).toBeVisible();
-  await expect(page.getByText(/Confirmado|Confirmed/i)).toBeVisible();
+  await expect(page.getByText(/Confirmado|Confirmed/i).first()).toBeVisible();
 });
 
-test("admin views uploaded proof", async ({ page }, testInfo) => {
+test("admin views uploaded proof on detail page", async ({ page }, testInfo) => {
   if (!hasE2eBlob()) {
     testInfo.skip(true, "BLOB_READ_WRITE_TOKEN not configured");
   }
@@ -61,9 +63,15 @@ test("admin views uploaded proof", async ({ page }, testInfo) => {
   });
 
   await loginAdmin(page);
-  const row = page.locator("tr", { hasText: displayId });
-  await row.getByRole("button", { name: /Ver comprobante|View proof/i }).click();
-  await expect(row.locator("img")).toBeVisible({ timeout: 10_000 });
+  await page.goto(`/admin/orders/${displayId}`);
+  await page.getByRole("button", { name: /Ver comprobante|View proof/i }).first().click();
+  await expect(page.locator("img").first()).toBeVisible({ timeout: 10_000 });
+});
+
+test("invalid displayId shows not found", async ({ page }) => {
+  await loginAdmin(page);
+  await page.goto("/admin/orders/MITIENDA-doesnotexist");
+  await expect(page.getByText(/Pedido no encontrado|Order not found/i)).toBeVisible();
 });
 
 test("logout returns to login form", async ({ page }) => {

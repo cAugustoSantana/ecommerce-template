@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { storeConfig } from "@shared/store.config";
-import type { Product } from "@shared/store.config";
+import { useProducts } from "@/context/ProductsContext";
 import type { Locale } from "@shared/types";
 import { ProductCard } from "@/components/ProductCard";
 import { OrderCart } from "@/components/OrderCart";
@@ -11,6 +10,7 @@ import styles from "./StorefrontPage.module.css";
 export function StorefrontPage() {
   const { t, i18n } = useTranslation();
   const locale = i18n.language as Locale;
+  const { products, loading, error } = useProducts();
 
   return (
     <div className={shared.page}>
@@ -20,14 +20,13 @@ export function StorefrontPage() {
         <p>{t("storefront.subtitle")}</p>
       </header>
 
+      {loading && <p>{t("common.loading")}</p>}
+      {error && <p className={shared.error}>{error}</p>}
+
       <div className={`${shared.grid} ${shared.gridTwoCol}`}>
         <div className={styles.products}>
-          {storeConfig.products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product as unknown as Product}
-              locale={locale}
-            />
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} locale={locale} />
           ))}
         </div>
         <OrderCart locale={locale} />

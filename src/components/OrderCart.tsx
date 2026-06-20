@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { storeConfig } from "@shared/store.config";
 import type { Locale } from "@shared/types";
 import { useCart } from "@/context/CartContext";
+import { useProducts } from "@/context/ProductsContext";
 import { getLocalized } from "@/lib/localized";
 import { formatMoney } from "@/lib/format";
 import styles from "./OrderCart.module.css";
@@ -15,13 +15,14 @@ function formatVariants(
   productId: string,
   variants: Record<string, string>,
   locale: Locale,
+  getProduct: ReturnType<typeof useProducts>["getProduct"],
 ): string {
-  const product = storeConfig.products.find((p) => p.id === productId);
+  const product = getProduct(productId);
   if (!product) return "";
   return Object.entries(variants)
     .map(([key, valueKey]) => {
-      const group = product.variantOptions[key as keyof typeof product.variantOptions];
-      const value = group?.values[valueKey as keyof typeof group.values];
+      const group = product.variantOptions[key];
+      const value = group?.values[valueKey];
       const label = group ? getLocalized(group.label, locale) : key;
       const valueLabel = value ? getLocalized(value, locale) : valueKey;
       return `${label}: ${valueLabel}`;
@@ -32,6 +33,7 @@ function formatVariants(
 export function OrderCart({ locale }: Props) {
   const { t } = useTranslation();
   const { lines, removeLine, total } = useCart();
+  const { getProduct } = useProducts();
 
   return (
     <aside className={styles.cart} aria-label={t("cart.title")}>
@@ -42,7 +44,7 @@ export function OrderCart({ locale }: Props) {
       ) : (
         <ul className={styles.list}>
           {lines.map((line) => {
-            const product = storeConfig.products.find((p) => p.id === line.productId);
+            const product = getProduct(line.productId);
             const name = product
               ? getLocalized(product.name, locale)
               : line.productId;
@@ -60,7 +62,7 @@ export function OrderCart({ locale }: Props) {
                   </button>
                 </div>
                 <span className={styles.variants}>
-                  {formatVariants(line.productId, line.variants, locale)}
+                  {formatVariants(line.productId, line.variants, locale, getProduct)}
                 </span>
                 <div className={styles.lineFooter}>
                   <span>

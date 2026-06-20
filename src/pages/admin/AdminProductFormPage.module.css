@@ -1,0 +1,45 @@
+.backLink {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--color-primary, #2563eb);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.form {
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.codeArea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8125rem;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.preview {
+  display: block;
+  margin-top: 0.75rem;
+  max-width: 160px;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+@media (max-width: 768px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}

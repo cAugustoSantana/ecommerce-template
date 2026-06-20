@@ -57,11 +57,88 @@ export async function adminLogin(password: string) {
   return parseJson<{ token: string }>(res);
 }
 
+export async function fetchProducts() {
+  const res = await fetch(`${API_BASE}/products`);
+  return parseJson<{ products: import("@shared/product.types").Product[] }>(res);
+}
+
+export async function fetchAdminProducts(token: string) {
+  const res = await fetch(`${API_BASE}/admin/products`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return parseJson<{ products: import("@shared/product.types").Product[] }>(res);
+}
+
+export async function fetchAdminProduct(token: string, id: string) {
+  const res = await fetch(`${API_BASE}/admin/products/${encodeURIComponent(id)}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return parseJson<{ product: import("@shared/product.types").Product }>(res);
+}
+
+export async function createAdminProduct(
+  token: string,
+  body: Record<string, unknown>,
+) {
+  const res = await fetch(`${API_BASE}/admin/products`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  return parseJson<{ product: import("@shared/product.types").Product }>(res);
+}
+
+export async function updateAdminProduct(
+  token: string,
+  id: string,
+  body: Record<string, unknown>,
+) {
+  const res = await fetch(`${API_BASE}/admin/products/${encodeURIComponent(id)}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  return parseJson<{ product: import("@shared/product.types").Product }>(res);
+}
+
+export async function uploadAdminProductImage(
+  token: string,
+  id: string,
+  imageBase64: string,
+  mimeType: string,
+) {
+  const res = await fetch(`${API_BASE}/admin/products/${encodeURIComponent(id)}/image`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ imageBase64, mimeType }),
+  });
+  return parseJson<{ product: import("@shared/product.types").Product; imageUrl: string }>(
+    res,
+  );
+}
+
 export async function fetchAdminOrders(token: string) {
   const res = await fetch(`${API_BASE}/admin/orders`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  return parseJson<{ orders: import("@/types/commerce").AdminOrder[] }>(res);
+  return parseJson<{ orders: import("@/types/commerce").AdminOrderListItem[] }>(res);
+}
+
+export async function fetchAdminOrder(token: string, displayId: string) {
+  const res = await fetch(
+    `${API_BASE}/admin/orders/${encodeURIComponent(displayId)}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  return parseJson<{ order: import("@/types/commerce").AdminOrderDetail }>(res);
 }
 
 export async function updateOrderStatus(token: string, orderId: string, estado: string) {

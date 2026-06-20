@@ -26,6 +26,7 @@
   border: 1px solid #d1d5db;
   border-radius: 0.375rem;
   font-size: 0.8125rem;
+  width: 100%;
 }
 
 .proofBtn {
@@ -55,17 +56,11 @@
   background: #10b981;
   color: #fff;
   cursor: pointer;
+  width: 100%;
 }
 
 .loginForm {
   max-width: 320px;
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
 }
 
 .logoutBtn {
@@ -81,4 +76,31 @@
 
 .empty {
   color: #6b7280;
+}
+
+.viewLink {
+  color: var(--color-primary, #2563eb);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.viewLink:hover {
+  text-decoration: underline;
+}
+
+.productsToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.productsToolbar .pageHeader,
+.productsToolbar header {
+  margin: 0;
+}
+
+.viewLink:hover {
+  text-decoration: underline;
 }

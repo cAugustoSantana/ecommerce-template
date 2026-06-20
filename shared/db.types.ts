@@ -31,3 +31,16 @@ export type OrderItemRow = {
 export type OrderWithItems = OrderRow & {
   items: OrderItemRow[];
 };
+
+export type ProductRow = {
+  id: string;
+  name: Record<Locale, string>;
+  description: Record<Locale, string>;
+  price: string;
+  image_url: string;
+  variant_options: Record<string, unknown>;
+  active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { Product } from "@shared/store.config";
+import type { Product } from "@shared/product.types";
 import type { Locale } from "@shared/types";
 import { getLocalized } from "@/lib/localized";
 import { formatMoney } from "@/lib/format";

@@ -1,5 +1,7 @@
 import type { Locale } from "../../shared/types.js";
 import { storeConfig } from "./config.js";
+import { getProductById } from "./products.js";
+import type { Product } from "../../shared/product.types.js";
 
 export type CartLineInput = {
   productId: string;
@@ -22,6 +24,8 @@ export type CheckoutInput = {
   items: CartLineInput[];
   honeypot?: string;
 };
+
+export type ProductLookup = (productId: string) => Promise<Product | null>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_QUANTITY = 99;
@@ -49,12 +53,8 @@ export function isSupportedLocale(locale: string): locale is Locale {
   return (storeConfig.supportedLocales as readonly string[]).includes(locale);
 }
 
-function findProduct(productId: string) {
-  return storeConfig.products.find((p) => p.id === productId);
-}
-
 function validateVariants(
-  product: (typeof storeConfig.products)[number],
+  product: Product,
   variants: Record<string, string>,
 ): Record<string, string> {
   const groups = Object.keys(product.variantOptions);
@@ -65,8 +65,8 @@ function validateVariants(
     if (!valueKey) {
       throw new Error("missing_variant");
     }
-    const group = product.variantOptions[groupKey as keyof typeof product.variantOptions];
-    const values = group?.values as Record<string, unknown> | undefined;
+    const group = product.variantOptions[groupKey];
+    const values = group?.values;
     if (!values?.[valueKey]) {
       throw new Error("invalid_variant");
     }
@@ -82,12 +82,15 @@ function validateVariants(
   return normalized;
 }
 
-export function validateCheckout(input: CheckoutInput): {
+export async function validateCheckout(
+  input: CheckoutInput,
+  lookup: ProductLookup = getProductById,
+): Promise<{
   locale: Locale;
   buyer: { name: string; phone: string; email: string };
   lines: ValidatedCartLine[];
   total: number;
-} {
+}> {
   if (input.honeypot) {
     throw new Error("honeypot");
   }
@@ -115,8 +118,8 @@ export function validateCheckout(input: CheckoutInput): {
   let total = 0;
 
   for (const item of input.items) {
-    const product = findProduct(item.productId);
-    if (!product) throw new Error("invalid_product");
+    const product = await lookup(item.productId);
+    if (!product || product.active === false) throw new Error("invalid_product");
 
     const qty = Number(item.quantity);
     if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QUANTITY) {

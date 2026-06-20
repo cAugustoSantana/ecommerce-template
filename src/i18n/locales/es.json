@@ -79,7 +79,45 @@
     "viewProof": "Ver comprobante",
     "hideProof": "Ocultar comprobante",
     "proofLoadFailed": "No se pudo cargar el comprobante",
-    "noOrders": "No hay pedidos todavía"
+    "noOrders": "No hay pedidos todavía",
+    "viewDetails": "Ver",
+    "orderDetail": "Detalle del pedido",
+    "backToOrders": "Volver a pedidos",
+    "orderNotFound": "Pedido no encontrado",
+    "payment": "Pago",
+    "nav": {
+      "orders": "Pedidos",
+      "products": "Productos"
+    },
+    "products": {
+      "title": "Productos",
+      "add": "Agregar producto",
+      "new": "Nuevo producto",
+      "edit": "Editar producto",
+      "empty": "No hay productos todavía",
+      "id": "ID",
+      "name": "Nombre",
+      "nameEs": "Nombre (ES)",
+      "nameEn": "Nombre (EN)",
+      "descEs": "Descripción (ES)",
+      "descEn": "Descripción (EN)",
+      "active": "Activo",
+      "yes": "Sí",
+      "no": "No",
+      "sortOrder": "Orden",
+      "variants": "Opciones de variantes (JSON)",
+      "image": "Imagen del producto",
+      "save": "Guardar producto",
+      "back": "Volver a productos"
+    },
+    "timeline": {
+      "title": "Línea de tiempo",
+      "orderPlaced": "Pedido realizado",
+      "proofUploaded": "Comprobante de pago subido",
+      "proofWhatsApp": "Cliente eligió WhatsApp para comprobante",
+      "paymentConfirmed": "Pago confirmado",
+      "statusUpdated": "Estado actualizado"
+    }
   },
   "common": {
     "loading": "Cargando…",

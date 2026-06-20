@@ -38,6 +38,7 @@ export default defineConfig({
     env: {
       ...process.env,
       RATE_LIMIT_TEST: process.env.RATE_LIMIT_TEST ?? "1",
+      VITE_MOCK_PRODUCTS: fullStack ? "" : "1",
     },
   },
 });

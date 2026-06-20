@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { storeConfig } from "@shared/store.config";
+import { useProducts } from "@/context/ProductsContext";
 import type { Locale } from "@shared/types";
 import { useCart } from "@/context/CartContext";
 import { useActiveOrder } from "@/hooks/useActiveOrder";
@@ -17,6 +17,7 @@ export function CheckoutPage() {
   const locale = i18n.language as Locale;
   const navigate = useNavigate();
   const { lines, total, clearCart } = useCart();
+  const { getProduct } = useProducts();
   const { setActiveOrder } = useActiveOrder();
 
   const handleSubmit = async (buyer: {
@@ -76,9 +77,7 @@ export function CheckoutPage() {
           <h2 className={styles.summaryTitle}>{t("checkout.orderSummary")}</h2>
           <ul className={styles.summaryList}>
             {lines.map((line) => {
-              const product = storeConfig.products.find(
-                (p) => p.id === line.productId,
-              );
+              const product = getProduct(line.productId);
               const name = product
                 ? getLocalized(product.name, locale)
                 : line.productId;

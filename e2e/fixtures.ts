@@ -8,6 +8,9 @@ export const test = base;
 export async function gotoStorefront(page: Page) {
   await page.goto("/", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: /Catálogo|Catalog/ })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: /Agregar al pedido|Add to order/i }).first(),
+  ).toBeVisible({ timeout: 15_000 });
 }
 
 export async function switchLocale(page: Page, locale: "EN" | "ES") {
@@ -51,6 +54,7 @@ export async function loginAdmin(page: Page) {
   await page.goto("/admin");
   await page.locator("#admin-password").fill(password);
   await page.getByRole("button", { name: /Iniciar sesión|Log in/i }).click();
+  await expect(page).toHaveURL(/\/admin\/orders$/);
   await expect(page.getByRole("heading", { name: /Pedidos|Orders/i })).toBeVisible();
 }
 

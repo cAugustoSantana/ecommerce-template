@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { hasDatabase } from "../lib/db.js";
 import { requireAdmin } from "../lib/auth.js";
 import { listOrdersWithItems } from "../lib/orders.js";
+import { serializeAdminOrderListItem } from "../lib/adminOrders.js";
 import { json, methodNotAllowed } from "../lib/http.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -18,28 +19,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const orders = await listOrdersWithItems();
 
     return json(res, 200, {
-      orders: orders.map((order) => ({
-        id: order.id,
-        displayId: order.display_id,
-        createdAt: order.created_at,
-        buyer: {
-          name: order.buyer_name,
-          phone: order.buyer_phone,
-          email: order.buyer_email,
-        },
-        estado: order.estado,
-        total: Number(order.total),
-        locale: order.locale,
-        paymentProofMethod: order.payment_proof_method,
-        hasProof: Boolean(order.payment_proof_url),
-        items: order.items.map((item) => ({
-          productId: item.product_id,
-          productName: item.product_name,
-          variants: item.variants,
-          quantity: item.quantity,
-          unitPrice: Number(item.unit_price),
-        })),
-      })),
+      orders: orders.map(serializeAdminOrderListItem),
     });
   } catch (err) {
     if (err instanceof Error && err.message === "unauthorized") {

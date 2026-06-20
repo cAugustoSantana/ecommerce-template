@@ -79,7 +79,45 @@
     "viewProof": "View proof",
     "hideProof": "Hide proof",
     "proofLoadFailed": "Could not load proof image",
-    "noOrders": "No orders yet"
+    "noOrders": "No orders yet",
+    "viewDetails": "View",
+    "orderDetail": "Order detail",
+    "backToOrders": "Back to orders",
+    "orderNotFound": "Order not found",
+    "payment": "Payment",
+    "nav": {
+      "orders": "Orders",
+      "products": "Products"
+    },
+    "products": {
+      "title": "Products",
+      "add": "Add product",
+      "new": "New product",
+      "edit": "Edit product",
+      "empty": "No products yet",
+      "id": "ID",
+      "name": "Name",
+      "nameEs": "Name (ES)",
+      "nameEn": "Name (EN)",
+      "descEs": "Description (ES)",
+      "descEn": "Description (EN)",
+      "active": "Active",
+      "yes": "Yes",
+      "no": "No",
+      "sortOrder": "Sort order",
+      "variants": "Variant options (JSON)",
+      "image": "Product image",
+      "save": "Save product",
+      "back": "Back to products"
+    },
+    "timeline": {
+      "title": "Timeline",
+      "orderPlaced": "Order placed",
+      "proofUploaded": "Payment proof uploaded",
+      "proofWhatsApp": "Customer chose WhatsApp for proof",
+      "paymentConfirmed": "Payment confirmed",
+      "statusUpdated": "Status updated"
+    }
   },
   "common": {
     "loading": "Loading…",

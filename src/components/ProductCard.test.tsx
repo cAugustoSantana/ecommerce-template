@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { storeConfig } from "@shared/store.config";
+import { mockProducts } from "@/test/mockProducts";
+import type { Product } from "@shared/product.types";
 import { ProductCard } from "./ProductCard";
 import { useCart } from "@/context/CartContext";
 import { renderWithProviders } from "@/test/render";
@@ -17,7 +18,7 @@ function CartCount() {
 
 describe("ProductCard", () => {
   it("renders product name and adds to cart", async () => {
-    const product = storeConfig.products[0] as unknown as import("@shared/store.config").Product;
+    const product = mockProducts[0] as Product;
     renderWithProviders(
       <>
         <ProductCard product={product} locale="es" />

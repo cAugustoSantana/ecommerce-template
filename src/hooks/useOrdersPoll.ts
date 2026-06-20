@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchAdminOrders } from "@/lib/api";
-import type { AdminOrder } from "@/types/commerce";
+import type { AdminOrderListItem } from "@/types/commerce";
 
 const POLL_MS = 30_000;
 
 export function useOrdersPoll(token: string | null) {
-  const [orders, setOrders] = useState<AdminOrder[]>([]);
+  const [orders, setOrders] = useState<AdminOrderListItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const visibleRef = useRef(true);
