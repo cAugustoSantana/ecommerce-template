@@ -19,15 +19,25 @@ import { handleOrderProof } from "./handlers/orderProof.js";
 import { handleOrderProofMethod } from "./handlers/orderProofMethod.js";
 
 function slugParts(req: VercelRequest): string[] {
-  const raw = req.query.slug;
+  const raw = req.query.path ?? req.query.slug;
   if (raw != null) {
     return Array.isArray(raw) ? raw.map(String) : [String(raw)];
   }
 
-  const url = req.url ?? "";
-  const match = url.match(/^\/api\/?(.*)$/);
-  if (!match?.[1]) return [];
-  return match[1].split("/").filter(Boolean);
+  const pathSource = req.url ?? "";
+  try {
+    const pathname = pathSource.startsWith("/")
+      ? pathSource.split("?")[0]!
+      : new URL(pathSource, "https://vya.do").pathname;
+    const match = pathname.match(/^\/api\/?(.*)$/);
+    if (match?.[1]) {
+      return match[1].split("/").filter(Boolean);
+    }
+  } catch {
+    // fall through
+  }
+
+  return [];
 }
 
 function setQueryParam(req: VercelRequest, key: string, value: string) {
